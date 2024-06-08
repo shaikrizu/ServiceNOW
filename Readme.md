@@ -1432,9 +1432,680 @@ function onLoad(){
 * we have writen the script at one place and we calling script at multiple client script 
 
 * as soon as i open the case form or problem form currently logedin user has created how many record should be shown in the alert 
+* i have to get the count of currently loged in user to get the count we get from server side we cont get it in client side so we have to write glide ajax to get the reccord count from server then i have creating script include 
+
+* current logedin user sys_ID u will get it using __gs.getUser.ID__ 
+* Client side u will use __g_user.UserID__
+
+![s55](./images/s55.png)
+
+* UI Policy
+* DATA Policy
+* Client Script
+  * Glide Ajax
+  * Glide Form
+  * Glide USer
+  * Glide Record
+  * Glide DailogWindow
+  * Glide Modal
+* UI Action 
+  * Client Side UI Actions
+  * Server Side UI Actions
+* UI Pages
+* UI Macros
+* UI Scripts
+
+33
+
+* Update Sets:
+* https://dev88924.service-now.com/  - Developer
+* https://test88924.service-now.com/ - Tester 
+* https://prod88924.service-now.com/ - Employee
+
+* we are service now developers we will do all our development in developer instance once we are done with developemnet we will have to move our development to test environment so to move dev envi to test envionrmnet we will use __Update Sets__
+* if u want to move development from one envoronment to other environemt one instance to another instance  we will use __Update Sets__
+* __Local UpdateSets__  
+* if u have to capture the development u need to make sure the __current update__ set for u
+* once  ur done with development u have to complete the __updateset__ once u complete u will get extara option called __Export to XML__ once u click this what ever development u have done those thing downloaded in XML Format then login tester incatnce -> search __retrived UPdate sets__ -> __import Update Set from XML__ or click on ... dots import Xml -> choose file -> u import the downloaded XML from ur local Computer -> when u uploading  the XML  inthe another service now instance first it will be __loaded__ state then u have to __Preview Update Set__  once preview is complete the u have to __commite update set__ once u commited __update sets__  then developmenet will move to other instence that how u move developmet one instance to otther instance 
+
+* [Preview Problem for STRY9999999-UG-02-Create Business Rule:2 Error | 0 Warnings. to commit this update set u must address all]
+
+* if u get this type of error u have to take two action eather 
+  * Accept remote Update (from this instance some thing new is comming do u have accepts or not)
+  * Skipe remote updates (ur not accepting dev instace development) 
+  * found a  local update that is newer that this one , 
+  * could not find a table field (incident .u_has_breached) referenced  in this update 
+* __Update Source__
+*  search -> Update Source -> new -> name -> type development ->  copy the deve instance URL (where do u wna to get the data records) past URL[] -> user name & password of deve instance whos URL  -> Retrieve completed Update Sets -> previewed happend autometically -> commit Update Set once u done Update set then deelopment to will move to dev instance to Test instance   
+*  to development one instance to another instance 
+* u want to move development one deve instance to Test instance we have to option like creating XML file and download then Export that XML file into Test instance every time downloding and Exporting  there is other option like __Update Source__ go to test instance configure the dev instance with credentioals u dont need to every time Export XML u just __Retrievie Completed Update Sets__
+
+* we have multiple Update Sets like 4 instaed of movieing 4 Update Set at 4 time we careate as one Update Set we can merge all as one update set for that goto __Merge Update Sets__ or __Merge Completd Update Sets__  ->  name [STR99999-UG-Final] -> Serach name of update sets -> Merge -> state [Complete] -> once u complete this update sets if u want to move this update set one instance to other instance goto remote instance click on Retrieve Completed Update Sets  -> if u get error accepts or skip  -> commit the Update Sets 
+
+* in ServiceNow some things will be Captured in update Sets
+  * Client Script
+  * Business Rules
+  * UI Policy
+  * Data Policy
+
+* There are somethings will not  be captured in the Update sets:
+  * Incident 
+  * Problem
+  * Change 
+  * Group
+  * Users
+  * Scheduled Jobs
+  * Schedules   
+
+*  if u want to move the incident record from one instance to other instrance u have to exportXML then download that XML goto incident list and import the XML upload 
+* First thing u get client requierment u have to create an update set becous we have to capture the developmet to capture the developmet we will create an update set  then u have to start ur development 
+
+34
+
+*  __GlideRecordSecure__
+
+* __Fix Script__ or __Background Script__  -> new -> name[ServerSide APis] -> 
+* what ever we are doning CRUD operation using GlideRecord Same CRUD operation can be done using __GlideRecordSecure__  then why do we have TWo APIs 
+* __GlideRecord__ will create the record even though u dont have permissons or even thoug u have permissons its  doesnt matter it will not check  u have access or not 
+* __GlideRecordSecure__ by default it check the access first if u have permissions it will create the record if u dont have permissions it will not allow u to create the record
+
+* Even though ur using Glide record u particulorly check the permissions to check the permissions __if (gr.canCreate())__ 
+
+* __GlideAggregate:__ will use get the count, maximum Value, minum Value 
+avarage Values, Standard Deviasions 
+* how many records on table what is maximum value on the table,
+* GlideRecord also we can do Aggretaion 
+* in case table how many short decription are empty records are ther  
+  
+```
+var gr = new GlideRecord('u_case');
+gr.addQuery('u_short_description','');
+gr.query();
+if(gr.next()){
+  gs.print(gr.getRowCount());
+}
+```
+* to get how many short decription empty record row count  we are using __Glide Record__ and __getRowCount__  instead of this we will use __GlideAggreget__ function   
+
+```
+var ga = new GlideAggregate('u_case');
+ga.addAggregate('COUNT');
+ga.addQuery('u_email','');
+ga.query();
+while(ga.next()){
+  gs.print(ga.getaAggregate());
+}
+``` 
+* if we use GlideRecord and getrow function it will caluclate one by one like 1,2,3,4,5 ... it counting the notes manually 
+* if u use GlideAggregate it will 
+directly get the value it is actually meachine calculater 
+
+```
+var ga = new GlideAggregate('u_case');
+ga.addAggregate('MIN','u_total_number');
+ga.setGroup(false);
+ga.query();
+while(ga.next()){
+  gs.print(ga.getaAggregate('MIN','u_total_number'));
+}
+```
+
+* __GlideDateTime__ if u want to  deal with Dates then u will use __GlideDateTime__
+
+```
+var gdt = new GlideDateTime();
+var selDate = new GlideDateTime('2023-06-15 13:06:49');
+gs.print('current date time:- '+gdt);
+gs.print('Selected date time:- '+selDate);
+```
+
+```
+var gdt = new GlideDateTime()
+var selDate = new GlideDateTime('2023-06-15 13:06:49');
+
+var diff = gs.dateDiff(gdt,selDate, false //if u use true u will get in sec);
+gs.print(diff);
+```
 
 
-32 20 
+```
+var gdt = new GlideDateTime();
+var selDate = new GlideDateTime('2023-06-15 13:06:49');
+
+var diff = gs.dateDiff(gdt,selDate, true  //if u use true u will get in sec);
+if(diff > 0){
+  gs.print('futur');
+}else{
+  gs.print('past');
+}
+
+```
+* __GlideDuration__
+* __GlideSchedule__ 
+
+
+35
+
+* fix script -> name serverside APIs 
+
+```
+var gdt = new GlideDateTime();
+
+var selDate = new glideDateTime('2023-06-09 12:37:54');
+
+var diff = GlideDate.subtract(gdt, selDate);
+
+gs.print(diff.getDisplayValue()); 
+
+```
+* if the select date with in 3 day form current date or not 
+
+```
+var gdt = new GlideDateTime();
+
+var selDate = new glideDateTime('2023-06-09 12:37:54');
+
+var diff = Glidedate.subtract(gdt, selDate,);
+var days = diff.getDayPart();
+if(days > 0 && days <3 ) {
+  gs.print('Within 3 days');
+}else{
+  gs.print('OutSide Window');
+}
+
+```
+* if the selected date  beyond 3 days form current date 
+
+```
+var gdt = new GlideDateTime();
+
+var selDate = new glideDateTime('2023-06-09 12:37:54');
+
+var diff = Glidedate.subtract(gdt, selDate,);
+var days = diff.getDayPart();
+if(days > 3 ) {
+  gs.print('Beyond 3 days');
+}else{
+  gs.print('OutSide Window');
+}
+
+```
+
+* wether selected date is week days or weekend 
+
+```
+var gdt = new GlideDateTime();
+
+var selDate = new glideDateTime('2023-06-09 12:37:54');
+
+var day = selDate.getDayofWeekUTC();
+if (day == 6 || day == 7){
+  gs.print('Weekend');
+}else{
+  gs.print('weekday');
+}
+
+```
+* if i have to 10 day to selecte date 
+
+```
+var gdt = new GlideDateTime();
+
+var selDate = new glideDateTime('2023-06-09 12:37:54');
+
+selDAte.addDayUTC(10);
+
+gs.print(selDisplayVAlue());
+
+```
+
+* if we add 10 business days in service now there is concept called schedule concept u create schedue 24/7 or 8-5 weekdays like wise 
+
+![s56](./images/s56.png)
+
+```
+var gdt = new GlideDateTime();
+
+var selDate = new glideDateTime('2023-06-09 12:37:54');
+
+var dur = new GlideDuration(60*60*24*1000*10 // it will give the days into milliseconds);
+var sch = new GlideSchedule('888878uu97897789');
+var endDate = sch.add(selDate,dur); // sc.add  it using this function millisecond to the days 
+gs.print(endDate.getDisplayValue());
+```
+
+
+* __Glide System API__
+* __Glide System API__ can be access using __gs__   Glide System use get the system informateion 
+  * g_form.addinfoMessage and g_form.adderrormessage that g_form can be used only inthe client side gs. can be used in server side 
+  * __gs.addErrorMessage('')__
+  * __gs.addInfoMessage('')__
+  * __gs.base64.Decode__ these are used for attachement and doucment if u have to send attachement one system to other system first i have to encode it then another system has to decode that attachement
+  * __gs.base64Encode__
+  * __gs.beginningofLastMonth__ 
+  * __gs.beginningofLastWeek__
+  * __gs.beginningofLastYear__
+  * __gs.beginningofNextMonth__
+  * __gs.beginningofNextWeek__
+  * __gs.beginningofNextYear__
+  * __gs.beginningofThisMonth__
+  * __gs.beginningofThisQuarter__
+  * __gs.beginningofThisWeek__
+  * __datePart__
+  * __gs.daysAgo(3)__ i have to query the incident record wich were created 3 daysAgo 3 daysAgo how many incident records are created i want to query 
+```
+var gr = new GlideRecord("incident");
+gr.addQuery("sys_created_on",'<', gs.daysAgo(3));
+gr.query();
+while (gr.next()) {
+  gs.print(gr.number);
+}
+```
+  * __gs.dbug__
+  * __gs.endofLastMonth__
+  * __gs.endofNextMonth__
+
+  * __gs.error();__
+  * __gs.log();__
+  * __gs.info();__
+  * __gs.warn();__ this are logging method for debugging purpose we  are using 
+* __gs.addInfoMessage('I am Uday');__ if u wnat to show the mesage u can shows in addinfo but as per servicenow it is not right practice write content inside the __addinfoMessage__ so u have to use there s option called __Messages__ in the Messages write the content info and there is __Language__ option for Language translation purpose it is not recomend to directly write messages in the __addInfoMEssage__  instaead of create messeages under system ui u have to call that message __gs.print(gs.getMessage('name'));__
+
+![s57](./images/s57.png)
+
+* for messages message 
+* for numbers Propertys there is concept called __sys_properties.LIST__  it will open system properties  tables
+* if u dont want to allow all the table to edited  form list view then desible that propertie __*list_edit__  false 
+* if u changing the system properties that meand acutally changing the system settings 
+
+* we use system properies to store hard code values 
+* in the scripting we should not use hard coded values 
+
+![s58](./images/s58.png)
+
+* __gs.print(gs.hasRole('admin'));__ the current logged in user has specfic role are not i want to check  in the server side in client side wil use __g_user.hasRole__  
+* __gs.print(gs.getUser().isMemberOf('Application Development'));__ if the current logedin user is memberof this application Development group  it will give u the boolian Value of true if his not memberof Application Development group it will give boolian value False 
+* current logedin user information also system information if u want to get system info we will use GlideSystem(gs) in the servicenow
+* Gliderecord can be use in server side and client side but actually server side scripting it is not recomende use in client side  
+
+36 
+
+* __Business Rules__
+* __Business Rules__ will run after the form submitions 
+* there are 4 Business Rules 
+  * __Before__  imediatly form Sumitions __Before Business Rule__ will run once __Before Business Rule__ runs imidiatly the data u enterd in form will go and store in data base then once the data will stored in data base __After Business Rule__ and __ASYNC__ will run 
+  * __After__
+  * __ASYNC__
+  * __Display__ it will run Ever time form get loaded __Display Business Rule__ will run
+* __Business Rules__ are Server Side Scripting 
+* case form -> rigt click -> configure -> Business Rules -> new -> name[populate caller values] -> advanced[] -> when[before] ->  advanced -> 
+
+
+```
+(function executeRule(current, previous /*null when async*/) {
+  current.u_caller.department.dept_head;
+  current.u_location = current.u_caller.location;
+    current._department = current.u_caller.department;
+    current.u_email = current.u_caller.email
+}) (current,previous);
+```
+save -> 
+* g_form only used in client side scripting Glide form is client side api  that cant be used in business rules so in business ruls fill the  field value we using current obj
+* after submiting  before it fill the values we can do same thing using __onChange__ client Script why we need to use Business Rule 
+* u can populate the values using  __onChange__ Client Script then u can submit then why we need to write Business Rules alwys remeber on a table record can be created form difreant data sources we are thinking form is only the way form is not only the way to create record on table if u write __onChange__ client script it only work on form if u write __Before Business Rule__ it will work all the sources 
+* u can stop the form submition at two level u can directly stop the form sumbmition u can stop the data at submition before business rule level
+* create Business Rule -> name[] -> advanced -> if affected caller is empty i have to stop data base update or insertion 
+
+![s59](./images/s59.png)
+
+* as soon as case is submited it has to create case_Task autometically 
+* for that we are creating  Business Rule that is Before insert we are not using update operations only insert opertion as soon as case is created case task has to created 
+* when u write the script and u want to see the logs then u use __gs.log('basha line no 10');__ then goto search -> __System Logs - All__ u will see the line no 10 thats means u script is executed 
+
+
+* when u creating case __Before Business rule__ will run in __Before Business rule__ we mention that cast-task details means case-task will create after careating case-task again __Before Business rule__ will run then again it creating case-task then again __Before Business rule__ it like infinite 
+*  when ever u creating case record it is creating case task as soon as cask task created again Business rule to stop this loop we have to use  __gsCtask.insert();__ 
+* using __Before Business rule__ we should not create the records why we should not create record using __Before Business rule__ 
+* if ur create case record witout affected caller affetcted caller is madatory then it will not create the case record but it will create the case-task 
+
+* if u dont mention the case records mandatory field it will not create the case record but it will create the case-task without creating case record how case-task will create our requierment is once the case record created then case-task will create  thats why not recomended the create records using __Before Business rule__ to achive the requierment we use __After Business Rule__
+
+* there are 3 __Before Business rules__ one is populate location department email and one __Before Business rule__ will stop the data base insert or update when Affected caller is empty one __Before Business rule__ create the case-task 
+
+*  __After Business Rule__
+
+![s60](./images/s60.PNG)
+
+* after we creating case record then we are creating case-task like everything is good then data will get inserted in database then After Business Rule  will run and create case-task
+
+* __ASYNC__ u can create record using __ASYNC Business Rule__ aslo it has lot of script then u have to use __ASYNC Business Rule__ if ur Business Rule Doenst have lot of script then u have to use __AFTER Business Rule__ 
+* When ever case created in service now this case record  has to created in salesforce when ever case record created in salesforce from saleforce we have to get the responce that  means it long process  then better to go for __ASYNC Business Rule__  
+* when u use __After Business Rule__ if u are creating 1000 case-task then it will freaze becouse its running the scritp 1000 time and u dont get the form once script is compelted then only u will see the form so if u use __ASYNC Business Rule__ it will run the script 1000 times in bacground it will give form controls imideatly   to see where is this script running copy the Business Rules name goto -> Search -> scheduled jobs -> a job is created once script is execution compelted this job will deleted autometically 
+
+* There is disadvantage in the __ASYNC Business Rules__ as this runs in the background doesnt have __previous Obj__  means __previous /*null when async*/__ 
+* when ever case record is created 1000 case-task are created then we change the state new to inprogress state here inprogerss is current value new is prevoious  value to update this state has chagne new to inprogress record in all case-task  i have to update that state has change new to in progress in case-task that means i have to current value and privous value in case-task i have to update 1000 records here we cant use After Business Rule or ASYNC Business Rule if we use After That is perfomance  issue form will hung if we use ASYNC privious value will not avilable that is where we use  __EVENT__ concept is come 
+* what is diferenace between After and ASYNC Business Rule?
+* how Many Types of Busines Rules are there?
+  * Before
+  * after 
+  * ASYNC
+  * Display 
+
+* __Display Business Rule__
+* __Display Business Rule__ will run evry time form get loded 
+* if u have to execute server side script and get the values from server  to client u will use 3 ways 
+  * __g_form.getReference__
+  * __GlideRecord__
+  * __GlideAjax__ 
+* now we are going to use __Display Business Rule__  to get the server side values to client __g_scratchpad.myName = 'Basha';__ u can access the Scratchpad obj in client side scripting 
+
+![s61](./images/s61.png)
+
+* __Scratchpad__ obj can  only be used in the __Dispaly Business Rule__ if use in before after ASYNC Business Rule it wont wor we use this __Scratchpad__ obj to  pass values from Business rule to client Script 
+
+* There is Script Excution Order:
+  * __query Business Rule__
+  * __Display Business Rule__  it holds the Scractchpad Values 
+  * __onLoad client script__
+  * __onLoad UI Policy__
+  * __onChange Client Script__
+  * __onChange UI Policy__
+  * __on Submit__
+  * __UI Actions__
+  * __Workflows/Flow Designers__
+  * __Before Business Rule__
+  * __After/Async Business Rule__
+
+* if the current loged in user is member of cab approvel group only i want to show this fields like country, cricket player, kabadi palayer ... if the current logedin user is not member of cab approvel group this field should be hidden 
+* first we need to check loged in use is member of cab group or not  so we cant check current loged in user member of cab group client side we cant check current logedin user is member of cab group or not  if u wnat to check u have to check it in server side so that means u have to server side and u have to get the value  from the server if u have to get the value from server side u can use
+  * getreference this is not possible
+  * Gliderecord
+```
+function onLoad(){
+  var gr = new GlideRecord('sys_user_grmember');
+  gr.addQuery('user',G_user.userID):
+  graddQuery('group','09809780707903ed//cab approval id');
+  gr.query();
+  if(gr.next()){
+    g_form.setDisplay('u_country',true);
+    g_form.setDisplay('u_cricket_palyer',true);
+    g_form.setDisplay('u_kabadi_player',true);
+    g_form.setDisplay('u_hockey_player',true);
+    g_form.setDisplay('u_rugby_player',true);
+    g_form.setDisplay('u_tennis_player',true);
+    g_form.setDisplay('u_table_tennis_player',true);
+  }else{
+        g_form.setDisplay('u_country',false);
+    g_form.setDisplay('u_cricket_palyer',false);
+    g_form.setDisplay('u_kabadi_player',false);
+    g_form.setDisplay('u_hockey_player',false);
+    g_form.setDisplay('u_rugby_player',false);
+    g_form.setDisplay('u_tennis_player',false);
+    g_form.setDisplay('u_table_tennis_player',false);
+  }
+  }
+```
+  * __GlideAjax__
+
+![s62](./images/s62.PNG)
+  
+  * Display Business Rule run every time when the form get loded from the Display Business Rule u can pass the value to the client side using ScractchPad obj 
+![s63](./images/s63.png)
+
+* __Query Business Rule__ 
+* ur opening the all case recrods and u dont want to show all case records to every one i wnat to show case records which are belongs to me 
+* __Query Business Rule__ should be Before Business Rule not be After Business Rule  
+
+![s64](./images/s64.png)
+
+when we creating incident task from incident related list u will get the incident number but if u open seperately  u wont get incident number and when u creating incident task from related list Configuration item and decription and assignto, assignment group values should populated from incident we can achive this using business rules 
+
+![s65](./images/s65.png)
+
+* what is the diffreanace between Query Business Rule  vs Dispaly Business Rule?
+* Display Business Rule will run every time form get loded 
+* Dispaly Business Rule is use to send the values from server to client using scratchpad Obj 
+  * when Query Business rule run before showing the list of record to the user if its meating condition records will be shown if its not meating the condition those records will not shown 
+
+38
+
+* __Scheduld Jobs__ if u want to do same activity daily basis or monthly basis or hourly basis then u use __Scheduled jobs__ 
+* if i have to send a report to manager on every Friday 
+* there are 2 types of Scheduled jobs
+  * Syste Definitions / Scheduled jobs -> sys Auto Table
+  * System Scheduler / Scheduled jobs -> sys Trigger Table 
+    * ASYNC Business Rule when the ACYNC Business Rule triggerd it has created job right that job created in scheduled job using this Scheduled job ASYNC will running in the background  this job autometically created by servicenow system
+* Syste Definitions / Scheduled jobs -> sys Auto Table 
+
+* we have 3 type of scheduled job 
+  * __Automate the generation and distrubution of a report__
+  * __Automatically generate someting(a change, an incident, a ci,ets)from a template__ 
+  * __Automatically run a script of your choosing__
+
+* __Automate the generation and distrubution of a report__ in servicenow system if u want to check weather email has sent or email has recived or not u have to check it in  __System Logs/Email__ 
+
+
+![s66](./images/s66.PNG)
+
+
+* u dont want to send email saturday and sunday then u have to click the conditional check box  
+
+![s67](./images/s67.PNG)
+
+
+* __Automatically generate someting(a change, an incident, a ci,ets)from a template__ on Sheduled basis if u want to create records (incident,change,problem) 
+* in organzation every week they will be implimenting the change request without creating manually like every monday a new change request has to create then we use __Automatically generate someting(a change, an incident, a ci,ets)from a template__ 
+* first create Template open the the change request wich are already created  then click  ... -> Toggel Template Bar -> 
+
+![s68](./images/s68.PNG)
+
+
+* __Automatically run a script of your choosing__ on scheduled based if u want to run the script 
+* on every month if u want to create change request without using template using script u want to create a record
+
+
+![s69](./images/s69.PNG)
+
+* when we use?
+* if an approval has to sent to manager if manger is not taking any action we have to remaind the manager usaly we will ping the manger or email the manager instead of sending messing if his not approving autometically send email like after 5 days 1 remainder after 10 days 2 remainder after 15 date rejected the request 
+
+![s70](./images/s70.PNG)  
+
+* User Administration/Groups -> When ever a persons leves the organizations his user account will be inactivated if manager left the organization group manager record will be inactivated if group manger will inactive who will mange the group so i have to every month on 30th date i have to check each group which has incative manager if group has inactive manager i have to send an Email to Group Executive if group Executive is not there i have to send an Email to paritculor mail address 
+* to achive this u have to write Scheduled jobs  in the scheduled job u have to query the group which has inactive manager 
+
+![s71](./images/s71.PNG)
+
+
+```
+var gr = new GlideRecord("");
+gr.addQuery("name","value");
+gr.query();
+if (gr.next()){
+
+}
+```
+
+10-06-2023 -1
+
+* __Imports:__
+  * geting some data from some waer 
+  * When servicenow recive the data that is import
+  When servicenow recive the data servicenow willnot directly accepts that data  
+  * servicenow will keep that data in __Import Set tables__
+  * __Import Set tables__  are temporary tables in that table data will be stored temporly maximum 28 days 
+  * after storing the data in __Import Set tables__ we will run __transform Map__ this __transform Map__ will the data from __import set table__ to target  table  
+
+![s77](./images/s78.png)
+
+* client given the some data in xl sheet and they ask to import the data into servicenow incident table 
+  * 1. Load Data
+  * for every time u load the data it will create __Import Set__ 
+  * then we have to run the transform map to run the transform map we have to create 
+
+* when ever we are loding the data in servicenow system the data will be stored in the temporeray table from the temprory table we run the transform map trought the transform map we will transform data into target table while transfoming the data into target table if the data which already there in the servicenow system that has to be update if the data not in servicenow system should be created (in xl sheet there is 90 record is there and serveicenow already 40 records is there and it will not create again 40 records if there is no record is ther it should be created  if any record is there that will be updated for that we have to use __Coalesce__) __Coalesce__ will make sure if a record that is comming in the xl sheet that is there in the servicenow system that will be upated 
+* can we have __coalesce__ multiple fileds we can have 
+* when ever u load the xl sheet in that xl sheet there are record which are there in the servicenow system which are not ther in the servicenow system but he told u that when u load the xl sheet which are not there in servicenow system should be create which are are there should not be __updated__ that why we use __transform script__  only insetrion not update 
+
+![s79](./images/s79.PNG)
+
+* when ever the state value that is comming as if value is not in servicenow system  if has to create new choice  u have select the option __Choice action[creat, ignore, reject]__ if u select the create it will create uday gadipatri as a choices like new, inprogress, progress, uday gadipatri 
+* Source Script is use to manipulate source data and we can modifi the values according to servicenow data 
+
+![s80](./images/s80.PNG)
+
+
+* __Exports:__
+  * sending data 
+  * when servicenow send data that is Export
+
+
+10-06-2023
+
+* __Transform Scripts__
+* There are 7 Types of Transform Script
+  * OnStart
+    * will run before before begining of the transform map will run one time  
+    * is for validation
+  * OnComplets
+    * will run in the end of tranform map will run one time 
+  * OnBefore
+    * will run before each row transformtion like there 100 rows 100 time will run  like u have business rule 
+  * OnAfter
+    * will run after each row transformation  will run 100 times
+  * OnForeigninsert
+    * if u selected choice action as create a new record is created becouse of choice action is create in the servicenow system 
+  * OnChoiceCreate
+    * 
+  * OnReject
+    * will run u have selected choice as rejected 
+
+* There are 7 Types of Transform Script
+  * OnStart
+
+  * OnComplets
+  * OnBefore is for validation
+  * OnAfter
+  * OnForeigninsert
+  * OnChoiceCreate
+  * OnReject
+
+* when ever u load the xl sheet in that xl sheet there are record which are there in the servicenow system which are not ther in the servicenow system but he told u that when u load the xl sheet which are not there in servicenow system should be create which are are there should not be __updated__ that why we use __transform script__  only insetrion not update  
+
+* like wise u will do validations before transforming the data into servicenow system, u will not directly accepting the data into servicenow first u keep it stageing table then check everything if everything is good then ur allowing them place the details into servicenow system  
+
+![s81](./images/s81.PNG)
+
+* why do we use __OnAfter Trnasform Script__ as incident record is created imidiatly incident-task  is created then incident-task should  assoiciat  incident record 
+* if 10 incident record is created 10 task should be created each task should be assoiciate to respected insident then we have to write __onAfter Transform script__ 
+* there 1000 pepole have joined the organization client given 1000 pepole data he ask upload user data into servicenow user table then uploaded then it will be placed into staging table then transform script onBefore will run once record get inserted into target table row tranformation sucessfull then onAfter Transfom Script will run as soon as onAfter transform script will run i want to send Email through the onAfter Transform Script to the user(ur user account is created) 
+
+* __DataSources__ data come from difreant sources like xl sheets, sql, server, sftp file.
+
+![s82](./images/s82.PNG)
+
+* if u want to pull every day data from the server  for that we use __schedule Impots__
+
+![s83](./images/s83.png)
+
+
+39 
+
+* __Notifications:__ 
+* __Notifications:__ when ever a record is created or updated or deleted if  u want to notifi some one u will use Notifications (Nothing but emails)
+
+* there are 4 ways to send the notifications
+  * __when record is inserted or updated__
+  * __Event is Fired__
+  * __WorkFlow__
+  * __Flow Designer__
+
+
+* when record is inserted or updated    
+
+* search -> system notifications -> new -> name[case]
+
+![s72](./images/s72.png)
+
+
+* when ever case record is created i want to notify the assignement Group member  case has been created  so that they will be understand that new case has been created some one has to work on that from our team  and if any changes in description or short description the assigned person will notifyed for that new notifications 
+
+* search -> system notifications -> new -> name[case Sd Updated]
+
+![s73](./images/s73.png)
+
+
+* __Event is Fired__ 
+* we will use some tricky condition case the condition is complex it requier litil bit script then u will use __Event is Fired__ 
+* when u select __Event is Fired__ u have to select the Event Name (event name u have to create event search -> Event Registry -> new -> event name[case.create.record] -> table -> )
+
+*to send notification we need to trigger the event instead of trigger fire the event once u fire the event this notfication will be triggerd  to fire u will this line __gs.eventQueue('case.create.record', previous, 'event param1', 'event param2');__ to trigger this script from any server side scripting u can triggerd it from __Business Rule__ __UI Action__ __Schedule job__   __Script Include__ __Script Action__
+
+![s74](./images/s74.png)
+
+* on the case table we are creating __Business Rule__ -> new 
+
+![s74](./images/s74.png)
+
+* as soon as create case record __Business Rule__ will triggerd once Business Rule triggerd __Event__ will fierd once Event Fierd __Notification__ will be triggerd 
+
+* debuging if business rule is triggerd or not for that we have to use __gs.log('inside business rule line no 2');__ then goto __System Logs__ u will see the logs then find event is fierd or not goto __Event Logs__ 
+
+* __WorkFlow__  how to send the email notification from the __WorkFlow__
+* search -> WorkFlow Editor -> new workflow -> name -> table name -> submit -> = Properities -> conditions -> 
+
+* Difreance between WorkFlow and Business Rule 
+  * Business Rule triggred Multiple Times 
+  * WorkFolw Trigged only once for one case record there will be one workflow  
+
+![s76](./images/s76.png)
+
+* as soon as created the record workflow will triggred then goto workflow contexts to check workfolw is triggred or not 
+
+
+* __Flow Designer__
+* if u want to trigred the email form flow designer 1 u have to goto notification in the notification select the send when[triggered] -> search flow designer -> new select the flow -> for the flow designer trigger point is main thing 
+
+* __Allow Digest__  u dont want to recive the notification u want to recive the one notification at the end of the day with all the information that has happen case record at one email notification
+
+![s77](./images/s77.png)
+
+
+40 
+
+* __Email Scripts:__
+* to make advanced thing on Email notification will use Email Script 
+  * keeping user in cc and bcc list
+  * Change the subject dynmically 
+  * Change the body dynamically 
+
+* search -> Email Script ->  
+* System Notifications 
+
+* it will send the email to assigenment group and it will keep the caller in the cc list 
+
+![s84](./images/s84.png)
+
+* create case record 
+* show the case reords belong to caller 
+* i want to show the content inthe email body i have to use __Template__ option
+
+![s85](./images/s85.png)
+
+* when ever short description is change this notification will be triggred  in the notification whenever u change the short description i should able to see privous short description and current short description as well
+
+![s85](./images/s85.png)
+
+41
+
+
+
+
+
+
+
+
+
 
 
 
