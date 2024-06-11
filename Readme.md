@@ -1307,6 +1307,7 @@ function populateDefaultValues(){
 }
 // out side function we cant use client side apis out side this function server side script will run    
 ```
+
 ![s45](./images/s45.PNG)
 
 * i want to UI Action work at Client and Database Level
@@ -2098,37 +2099,445 @@ if (gr.next()){
 
 41
 
+* __Outbound Email__
+* when servicenow sending the email that is outbound Email 
 
+* __Inbound Email Actions:__
+* When servicenow reciving email that is InBound Emails
 
+* __Email Properties__ if servicenow has to send an email u have to check __Email sending enabled [yes | No]__ if u check this u will get emails on what ever mention email for test purpose but personal development it is diseble u can see only in email logs 
+* if servicenow has to recive the email u have to check then __Email reciving enabled [yes | No]__ 
+* servicenow email -> search -> administration/Email Account -> servicenowSMPT -> email of the presonal developer will be instanceid@servicenowdeveloper.com  
 
+![s87](./images/s87.png)
 
+* as soon as srevicenow recive the email servicenow triggred the email actions __Email/Inbound Actions__  new -> 
 
 
+* when ever servicenow recives the email it triggred the Email actions -> in email actions we have writen script for creating user account -> for checking user is created or not __sys_user.LIST__ -> 
 
+![s88](./images/s88.png)
 
+42
 
+* __ACL - Access Contorl List__ 
+* To restrict the access  we will use __ACL - Access Contorl List__ 
+* Search -> Access control -> u can to see new option and modify option to work on __ACL - Access Contorl List__ u need a special privelage __security admin Role__ 
+* To work on __ACL - Access Contorl List__ we need a special privilage called  __Security Admin__ 
+* to get __security Admin__ role -> user profile -> Elevate role -> click on Security_admin update -> now u have security admin role 
 
+* when u creating table bydefault access control will created so u dont want then when u creating table there is option called uncheck __Create access control[]__  
+* we have created employee data in servicenow and want to give access to access to see employee table data to every on in organizations 
+* open the user record -> right click -> configure -> security rules -> new access control -> type [record] -> operation[read] -> name[employee-table] -> if u not selecting the role means every one in org will have read access -> save -> then imporanate the user then check 
 
+* User Administration / Roles -> new -> Employee(only the person has employee role his only read write delete update the records ) -> save -> open the record and configure -> security rule -> open access contorols there is role optin u need to select the employee role in every access control (read,write,delete) -> save 
 
+* user -> role -> edit -> employee -> 
 
+* first there was no __ACL__ only admin able to see when we create ACLS with no role every one able to see then we create role and we have given role to acl only the person who has role they can see  the date write read delete 
+* the person who has employee role they able to see name, id, manager they should not be see the salary and designation   
+* another role called Employee admin only employee adminshould see name id manager salary designation  to restrict field level access  access to name[employee [u_employee] [name]] -> role [employee(will see all the fields)] 
+* name[employee [u_employee] [id]] -> role [employee(will see all the fields)] 
+* name[employee [u_employee] [manager]] -> role [employee(will see all the fields)] 
 
+* name[employee [u_employee] [name]] -> role [employee_Admin(will see all the fields)] 
+* name[employee [u_employee] [id]] -> role [employee_Admin(will see all the fields)] 
+* name[employee [u_employee] [manager]] -> role [employee_Admin(will see all the fields)] 
+* name[employee [u_employee] [salary]] -> role [employee_Admin(will see all the fields)] 
+* name[employee [u_employee] [designation]] -> role [employee_Admin(will see all the fields)] 
+
+* anablle has table level permission but she doesnt have field level permisons then we given indivdual field level permissons we have given then we have restrict write access to all the filed 
 
+43  38-6AM
 
+* __Sheduled Jobs__ 
+* __Sheduled Jobs__ if u have to do the same activity at regular intervals, we use scheduled jobs 
+* every fridaty have to send the report to manager 
 
 
+46 PART-1
 
 
+* __Catalog Items__
+* __Catalog Items__ item are used to submit the request  
+* search navigate __Maintain Item__   -> new 
 
+* Related list play key role 
+  * __Variables__ are nothing but fields  
+  * new -> in varible  mulitple type of fields available[reference] catolog item [request company laptop] -> order [100] -> 
 
+  * I have create 10 catalog items
+  
+```
+  requested for 
+  email 
+  requested by
+  mobile number
+```
 
+* for 1 catalog i have created 4 variables like that for 10 catalog item i need to create 40 variables instead of creating 40 variables goto -> search -> __variable Sets__(means set of varaibles 4 varaible one set this varible set can re ue in 10 catalog item) -> new -> two type pf variable sets  (single-row , multi-row)  single-row titel [requester_deatiles]  
 
+* in variableSet level we have Catalog UI Policies and Catalog Client Script and Catalog Data lookup Definitions  those thing also availble in catalog item level also but if u write Catalog UI Poicies at varibleset level those policies applicable only variableset variables only  if u write at catalog -item level uipolices that will applicable at variableset level and catalogitem level variables aswell  same thing happen catalog client script also  and catalog data lookup definitions 
+* Catalog Client Scripts we have 3 types of client script __1.onChange__ __2.onLoad__ __3.onSubmit__ 
+* This catalog item availbe for everyone even without any role also this catalogitem visible for every one inthe organization
+* catalog item availbe for specific set of people  __Available For__ (who can see this catalog item) u can create user criteria user conditions search -> __User Criteria__ -> new -> name [only admins] -> Roles [admin] (who ha admin role they can only this catalog items)
 
+![s89](./images/s89.png)
 
 
+* __User Criteria__ if u wnat to restrict catalog item visibilty to few set of people then u will use __User Criteria__
+* __Data Lookup Rule__
+  * Data Lookup Rule is for tables
+  * Catalog Data Lookup Rule  is for catalog items 
+* __Related Articals__ is there  any knowledge articals this catalog item
+* __Related Catalog Item__ when u purchase t-shirt related t-shirt shown in the flipkart similorly if u want to show related catalog items u can add
 
+* once u submit the catalog form it will create the request under the request it subbmited requested item on this requested item we can design workfolw or flow desigen
 
+* i want to hide RAM Field to specfic people  goto RAM Variable -> permission -> read Role [admin] based on this field will visible 
 
+47 
 
+* __WorkFlow__
+* when u try to attach workflow to catalog items the table name always __Requested Itme__ 
+
+48
+
+* we have createed sequence task like 1 task is completed then 2 task will start it completed then 3 task will complet 
+* Parlel task i want to create 3 task at a time to create 3 task at a time we have to use 2 activity called __1.Branch Activity__ __2.Join Activity__  form Branch Activity we can run the parllell Tasks then Join Activity will wait for all the task get close once all task are closed then u will send the notification 
+* in work flow u have 3 task as parlell and u have created manully one task so workflow will not wait for manuly created task get close so here join Activity will not work so we have to use __wait for Condition Activity__
+* if u use __wait for Condition Activity__ it will wait for cataloag task  from workflow and  maually created taask get close once all the task are closed then workflow will move forword 
+
+```
+var grTask = new GlideRecord('sc_task');
+grTask.addQuery('request_item',current_sys_id);
+grTask.addActivieQuery();
+grTask.query();
+if (grTask.next()){
+  answer = false;  
+} else {
+  answer = true;
+}
+```
+* Timer Activity it will wait for time
+* Wiatforcondition it will wait for condition
+* If u want to run the script in workFlow u have to use __Run Script__ activity 
+* to create case task in workfolw we need to use __Run Script__ 
+```
+var gr = new GlideRecord('u_case');
+gr.initialize();
+gr.u_caller = current.varibles.requeste_for;
+gr.u_request_item = current.sys_id;
+gr.u_short_description = 'test 4567';
+gr.u_description = 'Test 5677';
+gr.insert();
+```
+in condition script 
+```
+var geTask = new GlideRecord('u_case');
+gr.Task.addQuery('u_request_item',current.sys_id);
+grTask.addQuery('u_state','!=','closed');
+grTask.query();
+if (grTask.next()){
+  answer = false;
+} else {
+  answer = true;
+}
+``` 
+
+* __Switch__ will keep the condition autometically like if u have RAM 1gb, 2gb,3gb,100gb, if u select the 1,2,3,4gb RAM it will go to one approval action if u select the 100gb RAM it will goto manager approval 
+
+![s90](./images/s90.PNG)
+
+
+* __WorkFlow Scratchpad__ if u want to pass value from one activity to another activity u have to use __Workflow scratchpad__ variable 
+* __g_scratchpad__ is use to pass the value formserver to client  
+
+![s91](./images/s91.png)
+
+* if u want to pass the value from one workflow to other worflow u have to create inputes in subworkflow u have to pass in put from parent workflow 
+* if u want to triigerd workflow using scripting 
+* __new Workflow().startFlow('systemid_of_workflow','insert');__
+* __new Workflow().restartFlow('systemid_of_workflow','insert');__
+* __new Workflow().cancelFlow('systemid_of_workflow');__
+
+
+50
+
+* __Flow Designer:__ is a low code platform which is used to automate the process
+* Flow designer can be used as Business Rules
+* Flow designer can be used as Scheduled jobs
+* Flow designer can be used as Workflow
+* Flow designer can be used as to send Emails
+* Flow designer can be used as workflow
+* Flow designer can be used as Inbound Email Action
+* Flow designer can be used as Transform Maps
+
+* Workflows are used to automate the process
+
+* as soon as i create incident record incident-task has to be created 
+* search -> Flow Designer ->  flow -> name [create incident taks] save and activate 
+* like u publish the workflow u have to activate the __Flow Designer__ this __Flow Designer__ will act as Business Rule 
+
+* __Business Rule__  vs __Flow Designer__ in Business Rule u have to write the scripting in Flow Designer u dont need ot write the scripting  
+* what ever u have done using Flow Designer u can achive using Business Rule also
+
+![s92](./images/s92)
+
+51 
+
+* Daily i have to check incident records which are reslove state if incident record is reslove state close autometically 
+
+![s93](./images/s93.png)
+
+* if user become inactive role should autometicaly removed or if his member of group remove from that group 
+* only in flow designer u will see trigger point in action and sub flow u wont see any trigger point 
+
+* action is function 
+* subflow is setof reuseble action in subflow u can use multiple action 
+
+![s94](./images/s94.png)
+
+* once u recives the email servicenow will trigger the flow designer when u select the trigger  point __Inbound Email__ action
+* for recive email form out side to servicenow u have to enable __Email receiving enabled[yes]__
+
+![s95](./images/s95.png)
+
+52 
+
+* in flow designer if u select the __Run Trigger [once]__ it will at as __work flow__ __Work Flow__ trigger only once  
+* if u want to flow designer will trigger multiple time meas __Run Trigger [For each unique change]__ 
+* u can trigger the flow using scripting 
+* u can trigger the flow using client scripting 
+* u can trigger the flow using server scripting 
+* u can trigger the action using scripting 
+* u can trigger the action using server   scripting 
+* u can trigger the action using client side scripting 
+* u can trigger the sub-flow using server side and client side scripting 
+
+* when ever request item created the request item has to be created in jira tool
+* Flow designer has Trigger but actions and sub-flows doenst has Triggers 
+* action have inputs and output and subflow have inputs and outputs 
+* action will act as function 
+* sub-flow is set of reuseble actions 
+
+52 - part-2
+
+* __1 Year     ==  4 Parts(Quarter)__
+* __4 Quarter  ==  16 Sprints__ 
+* __1 Quarter  ==  4 Sprints__
+* __1 sprint   ==  3 Weeks(15 Working Days)__
+
+* sprint planning meeting -- all the developers, tester, process owners, application owner
+* what work has to be completed in 3 weeks will discuss 
+* work will be assigned to developers  -story s 
+* biginig of the sprint we have __sprint planning meetig__ end of the sprint we have __sprint retrospecting meeting__ (what went well what did no go  not how to fix it.)
+* 15 days -- we will have daily scrum call (15 minutes call) what we have done yesterday, what are we going to do today. if u have any issues with storys or requirements , we can hightlight.manager will track the progress.
+
+* I recently created a flow designer in the flow designer that flow designer have actually created for the catalog item in that catalog item i have attach flow designer the flow designer trigger the condition  i selected as service catalog then i have got the catalog variables on the flow designer by using get catalog variables actions then using that catalog variable i have checked the request has manager or not if the requester has manager i have send approval to the requester manager then manager approved then i have created to task once all task are closed then i closed requested item if manger rejected i set requested item state closed incomeplete if requester has no manager i have keeping requested item state closed/complete 
+
+* what are the chalanges that u faced:
+* how do you keep yourself updataed in servicenow?
+  * I always follow nowlearning.servicenow.com for new learnings
+  * I read blogs
+  * I follow youtube comunity 
+  * i keep exploring on PDI
+* How would u like to see ur self in next 5 years?
+* i want to be export in all the areas in servicenow platform 
+* I want to explore more thing nin servicenow paltform so i can become expert in servicenow platform then i want to become technical lead  
+* i want to become a technical lead by gaining knowledge on all the areas into servicenow paltform 
+
+* junior Developer
+* senior Developer
+* Subject matter expert
+* Technical Lead
+* Associte manager
+* manager
+* Associate project manager
+* project manager
+
+* what is reson for job  change?
+* for better learning purpose, i got knowledge in the previous project. i would explore more on the platform  
+
+* for the business rule for before business rule i have created before business rule when ever affected caller is empty using before business rule im stoping the data processing into data base so u can also do this using manadatory field then why did u use before business rule in this cas if u make field manadtory the form level that will only work from the form  if u write a before business rule that will work form all the sources 
+* Day to day activity 
+* i work on storys i attend daily scrum  calls in daily scrum call i provide my update i also attene sprint planning meeting before sorint begining  i will attend the sprint retrospect meeting at end of the sprint if i get any requerment  calrity i talk to ofshor team leads and connect with client we will complete the stories 
+
+53 
+
+* Catalog Items: are used to submit the requests 
+* Record Producer: are used to create record on tables(like incident, problem, change, case)
+* Order Guides:  
+* all this 3 comes under same class of catalog item 
+
+* Record prouducer variables vs Catalog varaibles ?
+* in the record producer variable u will be see the extra check box __Map to fiels__ on demo incident caller will be maping in record producer varible 
+* u wont see __Map to field__ on the catalog  item variabe  u only see in record prodcer variable 
+
+![s96](./images/s96.PNG)
+
+* using map to filed we can map the fileds from demo incicent to record producer variables
+* Directly we can open  the demoincident form and directly we can create the record then why do we have to use record producer to create the demo incident record?
+* if u have to create the record on demo incident table  form u have permissions but when it comes record producer even u dont have permissons also u can create the record using record producer 
+* this record producer can access every one in the organization irrespctive of role they can actually access record producer they can submit this record producer 
+* if u dont want to visible record producer to every one u have __Available for__ and __not available for__
+* record producer are use to create the records on target table any target table 
+* u can create record from difreant sources like form , external system, using scripting, email, also record producer
+* using script aslo u do feld mapping
+ 
+```
+if(producer.table_name == 'u_case'){
+  var grCase = new GlideRecord('u_case');
+grCase.u_caller = producer.u_caller;
+grCase._category = producer.u_category;
+grCase.u_sub_category = producer.u_subcategory;
+grCase.u_short_description = producer.u_short_description;
+grCase.u_description = producer.u_description;
+// grCase obj is case incident fields prodicer. is record producer variables 
+  var caseID = grCase.insert();
+  producer.redirect = 'u_case.do?sys_id='+caseId;
+  } else if (producer.table_name == 'u_demo_incident'){
+    var grDemo = newGliderecord(u_demo_incident);
+grDemo.u_caller = producer.u_caller;
+grDemo._category = producer.u_category;
+grDemo.u_sub_category = producer.u_subcategory;
+grDemo.u_short_description = producer.u_short_description;
+grDemo.u_description = producer.u_description;
+// grDemo obj is demo_incident fields prodicer. is record producer variables 
+var demoID =  grDemo.insert();
+producer.redirect = 'u_demo_incident.do?sys_id=' + demoID;
+}
+current.setAbortAction(true);
+```
+* we are using reocrd producer to create 2 record on 2 table 
+
+54
+
+* __Order Guides:__ if u want to submit multiple catalog items under one request then we will use Order Guides.
+* we will use __Order Guide__ to submit the multiple catalog items under one request  
+* __Catalog item__ when ever u submit catalog form it will create request under the request request item will create on the request item u can tag workfolw or flow designer 
+* when ever u submit catalog form it has to create a record on incident table, when ever record has submited it has to create record on incident table if u want to create records on table after form submitions then we will us e __Order Guide__
+* __Record producer__ when ever u submit the catalog form it will submit a record form on a target table that  u sepcified 
+
+
+* __Order Guide__ search ->  Order Guides -> new -> 
+
+* Order Guide like when u join the company there is order guide in that there is catalog like create account, laptop request, welcome gift catalogs all this comes under one request 
+*  in __Order Guide__ we use __Cascade Variables__ option to pass value from __Order Guide__ variable to __Catalog Variable__ for that we have to check __Cascade Variables__ u need to make sure variables name are matching 
+* in order guide varibles name is __ram__ and request company laptop catalog item there is variable name called __ram__ both are match and __cascade variables[]__ checked 
+
+* __Metrics:__
+* how much time in root cause analysis how much time in fix in progress if have to track each and every thing time if i want to get the calucation if i want to get the duration we will use metrics in the organization 
+
+* search -> Metrics/Definitions -> new -> select the table -> wich field 
+* created the metric definitaion on the problem table sate field  then goto problem form u have to add metrics on the form 
+
+![s97](./images/s97.png)
+
+55
+
+* __Advanced Reference Qualifiers__
+* is used to restrict the data that u see in the reference and list type of fields 
+* when we click on magnifing glass in affected caller we able to see all the users but idont want to see all the users i want to see only HR department users then i will goto caller field right click -> configure dictionary -> __reference Specification__ -> Reference Qual condition [department][is][HR] this is simple reference qualifier -> we are able to restrict the data that i see in the reference field 
+* There are 3 types of __Reference Qualifier__
+  * __Simple__ doesnt requier scripting  
+  * __Dynamic__
+  * __Advanced__ (Current Object access)
+* if current loged in user  belongs to HR department im able to see only HR department users if current logedin user belongs to FINANCE department iam able to see FINANCE department users only this conditions not achive using simple Reference Quailifier then we have to use Dynamic Reference Qualifier or Advance Reference Qualifier 
+* __Dynamic__ (No Current Object Access)
+* search -> Dynamic Filter Options -> new -> name[show logged in user department]-> script['department='+gs.getUser().getRecord().getValue('department')] rield type [reference], reference table [user[sys_user]], availble for ref qual[] 
+* goto caller field configure dicitionary -> Reference Specification, use reference qualifier dynamic, dynamic ref qual [show logged in user department users(whih u have created arliar)]
+* Same requierment we can do using __advanced Reference Qualifier__ aslo  
+* we can do whater ever doing in Simple and dynamic  can be done it using  ADvanced reference qualifier 
+* in dynamic we specifi that current loged in user belongs to which department that department user only u can see but if u selecet the specific user in caller that caller department users u can see that requierment we cant achive using Dynamic reference Qualifier becouse in the dynamic reference qualifier u cant use current object 
+* __Advanced Reference Qualifiers__ (Current Object Access Current Object hold form field value)
+* How do u call the script include in the server side?
+* new script-include name.function name
+* if u want to call the script-include from client side  u have to use glide ajax 
+
+![s98](./images/s98.png)
+
+* __Realted Lists__
+* botom of the form u able to see related list 
+* creating related list and adding related list both difreance 
+* in case form who ever u select the caller if that caller has how many incident record has a caller i want to show it in related list  
+* Search -> relationship -> new -> name [caller incident], applies to table[case[u_case]], Queries form table[incident[incident]], 
+```
+(function refineQuery(current,parent){
+  current.addQuery('caller_id',parent.u_caller);
+})(current, parent);
+// current obj refers to incident table 
+// parent obj refers to case table 
+```
+then add created Related List -> right click -> configure -> Related List -> add caller incident ->
+
+![s99](./images/s99.png)
+
+* __Script Actions__ 
+* To fire the script action we use  __gs.eventQueue('eventname', obj, 'eventparm1', 'event param2');__
+* Today if i create incident record after 2 days it should create incident-task so after 2 day this event should fired
+* first create event -> search -> event registry -> new -> event name [incident.task.script.action], table[incident[incident]] -> save 
+* serach -> script actions -> new -> name[create incident task], event name[incident.task.script.action], active[], executeion order[100] script
+```
+var gr = new GlideRecord('incident_task');
+gr.initialize();
+gr.incident = '03208ruf8ey4rf0e';
+gr.short_description = 'testr form script action';
+gr.description = 'test from script action';
+gr.insert();
+```
+this script action will trigger when ever we fire the event u can use this line of script to fire the event  __gs.eventQueue('incident.task.script.action','','param1','param2', '2023-07-24 00:00:00');__ we can fire the event using any sever side script 
+* search -> script-background -> run the  __gs.eventQueue('incident.task.script.action','','param1','param2', '2023-07-24 00:00:00');__ once fired u can check in event logs 
+* script action fired form the event once event fired this script action will trigger and once script action is trigger it will create incident-task record 
+
+56
+
+* __Access Controls:__ are used to restrict the access to the forms and fields
+* only this role people can access this forms, only this role people can access this incident form so u can restrict to acces form and lists and fields using __access Contorls__
+* __Authanticaton:__ Requires username and password (is loging into platform)
+* __Autherization:__  Requires roles to access table data, form and fields (is access the particulor things inthe paltform)
+* Access Controls comes under __Autherization__ 
+* if one has to work on access contorl, theone should have security admin role even thouge ur admin u wont be able to work on access controls by default 
+* to get __security Admin__ on user menu __Elevate role__ select  __security_admin__ update once u get the security admin role thenu can create the access controls and also modify the exesting access controls as well as 
+* search -> system definition / Tables -> new -> lable[faculty], create module[], create mobile module[], -> contorls -> create access contorl(when u select this option it will create the 4 access contorl by default) if u uncheck this no acl will created uncheck and created the table and create fieleds name, first name, last name, salary, address.
+* i created a table on the faculty table create 5 fields using faculty form created 5 records 
+* there is no acl on faculties table by deffault this data only visible for servicenow admins so i want to access to every one in the organization with read permissions 
+* open the user right click -> configure -> security Rules(before elevate role) -> new -> type [record] -> operation [read] -> name [select the table faculty[u_faculty]] [none(all the record visible for every one)] 
+* faculty user role  able to see all the record but not able to see salary and address  
+* Faculty admin role able to see al the data and slaray and address also 
+* first create ROLES search -> roles -> new -> faculty_user save 
+* new faculty_admin save 
+* then right click -> configure -> security rules -> in acl u have acls there role option (create, read, write) secelt the faculty_user and faculty_admin  but delete permision select the role faculty_admin mean faculty_admin only able to delete the data 
+* then select the role  and atatch the role to user  faculty_admin
+* another user faculty_user 
+* but we wanto restrict the salary and address field for that restrict access to all the field for faculty_user not only salary and address  
+* create new access control   * all the fields only faculty admin able to see all the fields 
+* we are goining to grant individual field permisson to faculty_user 
+* acl field name role [faculty_user and faculty_admin]
+* field first name role [faculty_user and faculty_admin]
+* field last name role [faculty_user and faculty_admin]
+field salary role [faculty_admin]
+* field address role [faculty_admin]
+* to saticfiy the ACL one must staisfy the __condition__ one must satisfy the __role__ one must satisfy the __script__
+
+![s100](./images/s100.png)
+
+57 
+
+* Reports and Dashords are for managemnet:
+* ur manager want to check this week how many inident are created and resloved and pending for this week for this month for this quater for each and every thing manager wants to check for that we create Reports without navigating table data and checking there we can create report to create new report
+* search -> reports view/run or create new -> i want to create report on incident table how many incident are closed  last week 
+
+![s101](./images/s101.png)
+
+* __Dashbords__ managers are higher level management they dont goto tables they dont go to servicenow system incident record problem records they always look at statistics 
+* search -> dashbords -> create dashbord -> name -> 
+
+![s102](./images/s102.png)
+
+* __Clones__ 
+* before u go for upgrade u actually clone the instances 
+* 
 
 
 
@@ -2138,51 +2547,3 @@ if (gr.next()){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-* GlideDialogWidow
-* GlideModal
-* GlideModalForm
-* GlideList
-* g_navigation
