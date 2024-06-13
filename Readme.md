@@ -56,7 +56,7 @@
 * in the servicenow system servicenow developed incident management in the servicenow system so how did servicenow developed this incidentmanagement service created a table called incident table  and created so many feilds 
 * tables -> incident -> show form -> it will open incident form 
 * my laptop working fine  all of sudden  is not woring fine (incident) it is not working fine i wont be delever the work so to get the laptop woking again i have to create incident record 
-* __number -> caller -> category -> subcategory -> service -> chanel -> state -> impact -> urgency -> 
+* __number -> caller -> category -> subcategory -> service -> chanel -> state -> impact -> urgency ->__
 * priority data lookups table in that there perdifined data there like if imact is high and urgeny high then priority critical 
 imact high urgency medum priority is high like that
 * once assigne to some one in group(team) it will go to state inprogeess means some one is working in this incident 
@@ -2537,9 +2537,63 @@ field salary role [faculty_admin]
 
 * __Clones__ 
 * before u go for upgrade u actually clone the instances 
-* 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
+* User Administration
+* User Interface
+* ITSM Introduction
+* Incident MAnagement Life Cycle and State Model
+* Problem Management Lifecycle and State Model
+* Change Management LifeCycle and State Model
+* Knowledge Management Lifecycle and State Model
+* Tables and Fields and Columns 
+* Dicitionary Override
+* Forms
+* Formatters
+* Lists
+* Plugins
+* Data Lookups Rules
+* Assignment Lookup Rules
+* UI Policy 
+* Data Policy
+* Client Script
+* Script Include with Glide Ajax
+* Script Include
+* UI Actions
+* UI Scripts
+* UI Pages
+* UI Macros
+* Java Script Fundamentals
+* Glide APIs
+* Fix Scripts
+* Update Sets
+* Business Rules
+* Schedule Jobs
+* Email Notification & Scipts
+* Inbound Email Actions
+* Access Control List
+* Service Catalog
+* Workflow
+* Record Producer
+* Order Guide
+* Import Sets
+* Flow Designer
+* Service Level Management
+* Related List
+* Transform Map & Scripts
+* Metrics
+* Script Actions
+* Data Sources
+* Reports & Dash Boards
+* Configure MID Server
+* Cloning Instance
+* Integrations 
+* Outbound Itegrations With REST Message
+* Outbound Integrations with SOAP Message
+* Inbound Integrations With Table API
+* Inbound Integrations With Import Set API
+* Inbound Integrations With Scripted REST API
 
 
 
