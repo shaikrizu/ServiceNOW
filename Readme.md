@@ -2596,7 +2596,93 @@ field salary role [faculty_admin]
 * Inbound Integrations With Scripted REST API
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
+###### live Project
+* Retrieved update set - import update set form xml - select the xml (loaded)
+* preview update sets
+* if any preview issues - fix them
+* committ the update sets
+* verify in test env (count - funtionality)
+
+
+* Req: INCIDENT
+* Create a column - rating
+* Keep a Logic to show this rating field only when state = closed or cancelled. ui policies
+
+* Story created.
+* goto -> search -> local update sets -> new [storynum-incident-ratingfield_v1.0] ->  submit and make current -> created opne updatesets 
+* Goto incident form -> right click -> configure -> table -> new column -> tablename -> type [choice] -> column lable[rating] -> save when we save in update sets how many chnages are captured [form layout. dicitionary, lable]
+* update sets will store in this table __sys_update_set__
+* every configureation of the system will store in  __sys_update_xml__ __sys_update_xml_list.do__
+* selecte the choice -> new choice -> label [satisfied] value[1], sequence[100] save
+* label [not satisfied], value[2], sequence [200] insert and stay
+* label [avarege], value[3], sequence [300] insert and stay 
+* u have created update set in update set u have accidently  captured something u dont want to move that upadate in to dev so for open the update in that update sets in the last option move one update set to another update set 
+* Right click -> configure -> UI Policies -> new -> table [incident], short description[rating field], conditions [state [is one of] [closed,canceld]]  save -> ui policies actions -> new -> ui policy [rating field], table[incident], field name[rating], visible[true]. save 
+* if u select the incident state is in progress or any thing other than closed or cancled it will not show u rating field 
+* where ui policies __sys_ui_policy__ 
+* where ui policies action store __sys_ui_policy_action__
+* when u select the field value is not-satisfied condition meet then u condition is not meet the value what ever u mention in that value is same it just hide the field so if u save that the value is not-satiesfied so better check the box __clear the field Value[]__ in UI policy action 
+
+* Move to test instance 
+
+
+* make update set complete -> save -> once u save u get option called __Export to   XML__ once export to xml then went to test instance __retrived update sets__ then load the file this in general state
+* we use test env  __Update Sources__ -> new ->   name[developer instance], type[development], URL [], username[], password[] test connection ->  save -> retrive completed update sets -> we will get completed updates only -> skip or accept or find missing -> commit update set. this changes applay into test  -> i will get update sets in local update set and also get the changes then test in test env 
+
+* move to test instance 
+* UAT testing and QA  testing
+* then to production 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+##### Gautham 
+* change the logo image -> search system properties/basic configuration UI16 ->  here u can basic level configuration like time brnading like thems and colour  
+* Applicaton banner application is nothing but collection of module 
+* Global search is like google  if u want to access the service now content like u have incident id or num u dont need to go every time in incident and search that particulor incident u just pass the id of incident it will show u 
+* __Forms__ is collecting the user information 
+* form can hold the fields to collecting information form user 
+* we can design forms in multiple ways __Form Design__ __Form Layout__ 
+*  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### INTIGRATION
+* communication or making bond between 2 systems
+* 
 
 
 
