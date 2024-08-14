@@ -122,7 +122,7 @@ imact high urgency medum priority is high like that
 * to mange this knowldege artical backend workflow willbe running 
 * __Knowldege artical__ lifecycle Knowledge base -> category -> valid to -> short description ->artica body ->  workflow -> then u click on publish it will goto reviw phase in review phase knowledge base owner should be approved once he approves it it will go to publish state in the publish state who hase permission read can  only they can read then once it reachs to valid to it will go to pendding retairment state once knowldege base owner has to approved it will go to retairment state this knowledge life cycle to mange this life chycle there are workflos are running bagground those workflows u can see t inthe knowldege base level 
 
-##### Reuest Management
+##### Request Management
 * if u want to something from some one or u want something new u will have to request 
 * u need some documentation form other team access some other team
 * u want laptop then u have to rise the request once u rise the request wu will be provided the laptop once u got the laptop while u working on the laptop it stoped working then u create incident 
@@ -158,7 +158,9 @@ Updated       --  (When was the updated last time)
 * if u want to show case form in two colum go to case table -> desigen form -> from the form design u can make form into 2 colum select 2 colum and whate ever u want to show in second colum u can drag and drop 
 * from the form desigen also u can create new field
 * __syd id__ is uniq alpha numariq and __number__ is also uniq but __number__ is for end user __sys id__ is for servicenow developer 
+
 11
+
 * to create section u need to go  form desigen -> click + icon -> 1 colum sectionname [system information] then drag and drop -> 
 ![s10](./images/s10.PNG)
 
@@ -292,6 +294,10 @@ u_case.FORM it will open new form in difreant tab
 * when we select the  specific assignment group we will see the assigned to users only who belongs to that particulor group for that we need to use Advanced Qualifier 
 
 15
+15 
+LOOK UP RULES
+* we created table case priority look up table on that table we have provided the table name we have extend the data look up matcher table in this table we have create 3 field like impact urgency priority in this we not created choice we extende the choice   
+Priarity look up rules for that we need to create Table in that table  extends table data lookup matcher table save create imacat save advance view selcet the choice case table and impcat  save then -> set impcat high uregency high priority high like then -> 
 
 * in the reference feilds if u want to restric  the data that u see then u will reference qualirier 
 
@@ -333,10 +339,10 @@ u_case.FORM it will open new form in difreant tab
 * u can add rows difreant sources not only using the form to add a new row on the table 
 
 ##### UI Policy
-* If we want to make feild readonly, madatory, show or hide the feild at certain  condition is called UI Policy 
+* If we want to make feild readonly, madatory, show or hide the feild at certain  condition only on form called UI Policy  only on form 
 
 ##### DATA Policy 
-* If we want to make feild readonly, madatory, the feild at certain  condition from all the sources(it can be third party email, form, execl sheet) is called DATA Policy  
+* If we want to make feild readonly, madatory, the feild at certain  condition from all the sources(it can be third party email, form, execl sheet) is called DATA Policy   all the sources
 
 * when caller and affected caller are not empty, make assignment group mandatory to achive this go to UI Policy  -> right click -> configure -> UI Policies -> new -> caller is not empty and affected caller is not empty save -> then -> UI Policy action new -> field name [assignment Group] -> MAndatory [true] submit 
 * if u make caller and affected caller mention the assignemnt group will become mandatory but if u make any of the caller or affected caller empty it will not become non mandatory for that goto UI Policy __Reverse if false__ (the condition is not matching the changes will be revers back) 
@@ -480,7 +486,7 @@ u_case.FORM it will open new form in difreant tab
   * if u want to hide the magnifing glass in the feild rigjt click inspect -> point to the maginigng glass and copy the id(lookup id) __g_form.getElement('lookup.u_case.u_caller').style.display = 'none';__ then make sure __isolate script__ check box unchecked 
   * __g_form.getElement('u_case.u_Short_description').style.color = 'red';__
   * __g_form.getElement('u_case.u_number').style.backgroundColor = 'green';__
-  * __alert(g_form.getUniqeValue();__ if u want to get the record system id 
+  * __alert (g_form.getUniqeValue());__ if u want to get the record system id 
   * __alert(g_form.getTableName());__ if u want to get tabelname
   * __g_form.addDecoration('u_caller','icone-star','Caller is mandatory');__ add star in front of caller feild 
 
@@ -597,43 +603,42 @@ function onChange(control, oldValue, newValue, isLoading, isTemplate) {
 
 ```
 function onChange(control, oldValue, newValue, isLoading, isTemplate) {
-  var caller = g_form.getReference('u_caller',callback);
-  var callerVal = g_form.getValue('u_caller');
+    var caller = g_form.getReference('u_caller', callback);
+    var callerVal = g_form.getValue('u_caller');
 
-  if(callerVal == ''){
+    if (callerVal == ''){
 
-    g_form.setReadOnly('u_location', false);
-    g_form.setMandatory('u_location', true);
-    g_form.setValue('u_location', '')
-
-
-    g_form.setReadOnly('u_department', false);
-    g_form.setMandatory('u_department', true);
-    g_form.setValue('u_department', '')
-
-    g_form.setReadOnly('u_email', false)
-    g_form.setMandatory('u_email');
-    g_form.setValue('u_email', '')
-    return;
-  
-  }
+        g_form.setReadOnly('u_location', false);
+        g_form.setMandatory('u_location', true);
+        g_form.setValue('u_location', '');
 
 
-  function callback(caller){
-    g_form.setMandatory('u_location', false);
-    g_form.setValue('u_location',caller.location);
-    g_form.setReadOnly('u_location',true);
+        g_form.setReadOnly('u_department', false);
+        g_form.setMandatory('u_department', true);
+        g_form.setValue('u_department', '');
 
-    g_form.setMandatory('u_department', false);
-    g_form.setValue('u_department',caller.department);
-    g_form.setReadOnly('u_department',true);
-    
-    g_form.setMandatory('u_email', false);
-    g_form.setValue('u_email',caller.email);
-    g_form.setReadOnly('u_email',true);
-      }
+        g_form.setReadOnly('u_email', false);
+        g_form.setMandatory('u_email');
+        g_form.setValue('u_email', '');
+        return;
+
+    }
+
+
+    function callback(caller) {
+        g_form.setMandatory('u_location', false);
+        g_form.setValue('u_location', caller.location);
+        g_form.setReadOnly('u_location', true);
+
+        g_form.setMandatory('u_department', false);
+        g_form.setValue('u_department', caller.department);
+        g_form.setReadOnly('u_department', true);
+
+        g_form.setMandatory('u_email', false);
+        g_form.setValue('u_email', caller.email);
+        g_form.setReadOnly('u_email', true);
+    }
 }
-
 ``` 
 
 * create 3 fields 
@@ -1407,8 +1412,6 @@ function onLoad(){
  * right click -> configure -> form layout -> select the Formatter (Institute Logo) -> 
  * in form we field called image type field where u can select the image but u cant show the image alway in image field u can see [click to add...] option if u using image, macros, formatters then u can able to see always 
 
-![s39](./images/s39.png)
-
  * if u want to show the URL that is also possible for that in servicenow ther is onther field but thats show only one URL our comapany have 3 URLS for that we have to use Macros 
 
 
@@ -1792,6 +1795,8 @@ save ->
   * ASYNC
   * Display 
 
+37
+
 * __Display Business Rule__
 * __Display Business Rule__ will run evry time form get loded 
 * if u have to execute server side script and get the values from server  to client u will use 3 ways 
@@ -2040,7 +2045,7 @@ if (gr.next()){
 * we will use some tricky condition case the condition is complex it requier litil bit script then u will use __Event is Fired__ 
 * when u select __Event is Fired__ u have to select the Event Name (event name u have to create event search -> Event Registry -> new -> event name[case.create.record] -> table -> )
 
-*to send notification we need to trigger the event instead of trigger fire the event once u fire the event this notfication will be triggerd  to fire u will this line __gs.eventQueue('case.create.record', previous, 'event param1', 'event param2');__ to trigger this script from any server side scripting u can triggerd it from __Business Rule__ __UI Action__ __Schedule job__   __Script Include__ __Script Action__
+* to send notification we need to trigger the event instead of trigger fire the event once u fire the event this notfication will be triggerd  to fire u will this line __gs.eventQueue('case.create.record', previous, 'event param1', 'event param2');__ to trigger this script from any server side scripting u can triggerd it from __Business Rule__ __UI Action__ __Schedule job__   __Script Include__ __Script Action__
 
 ![s74](./images/s74.png)
 
@@ -2200,6 +2205,8 @@ if (gr.next()){
 
 * __WorkFlow__
 * when u try to attach workflow to catalog items the table name always __Requested Itme__ 
+* __Catalog UI Policies__ used make fields mandatory read only show or hide the fields 
+* __Catalog Client Script__ used to run on the events  onload onchange onsubmit   
 
 48
 
@@ -2282,7 +2289,7 @@ if (grTask.next()){
 * __Business Rule__  vs __Flow Designer__ in Business Rule u have to write the scripting in Flow Designer u dont need ot write the scripting  
 * what ever u have done using Flow Designer u can achive using Business Rule also
 
-![s92](./images/s92)
+![s92](./images/s92.png)
 
 51 
 
@@ -2320,6 +2327,12 @@ if (grTask.next()){
 * action have inputs and output and subflow have inputs and outputs 
 * action will act as function 
 * sub-flow is set of reuseble actions 
+* in the work flow u want to pass value one activivty to another activity u have to use __workflow.scratchpad.variable-name__
+* Flow designer u want to pass one value to another flow designer u have to use __Flow Variables__
+* in Flow designer u can directly test it but work flow u cant test 
+* if u want to trigger flow designer using scripting 
+![s103](./images/s103.PNG)
+ '
 
 52 - part-2
 
@@ -2366,10 +2379,11 @@ if (grTask.next()){
 53 
 
 * Catalog Items: are used to submit the requests 
+
+* ONCE U SUBBMIT THE __CATAlog form__ it will createt the __request__ under the __requeset__ __requeuest itme__ will created under __request item__   __Work flow__ or __Flow designer__ will triggred  
 * Record Producer: are used to create record on tables(like incident, problem, change, case)
 * Order Guides:  
 * all this 3 comes under same class of catalog item 
-
 * Record prouducer variables vs Catalog varaibles ?
 * in the record producer variable u will be see the extra check box __Map to fiels__ on demo incident caller will be maping in record producer varible 
 * u wont see __Map to field__ on the catalog  item variabe  u only see in record prodcer variable 
@@ -2453,7 +2467,14 @@ current.setAbortAction(true);
 * __Advanced Reference Qualifiers__ (Current Object Access Current Object hold form field value)
 * How do u call the script include in the server side?
 * new script-include name.function name
+* __new callerDepartmentforCase().getcaseCallerDep(current);
 * if u want to call the script-include from client side  u have to use glide ajax 
+* if u want to call the script-include from business rule script-include name.functionname 
+* if u want to call the script-include from schedlue job
+* if u want to call the script-include from email script, flow designer, workflow as well 
+* u have to call the script include from client side u have to use glide ajax 
+
+
 
 ![s98](./images/s98.png)
 
@@ -2486,8 +2507,10 @@ gr.short_description = 'testr form script action';
 gr.description = 'test from script action';
 gr.insert();
 ```
+![s104](./images/s104.png)
+
 this script action will trigger when ever we fire the event u can use this line of script to fire the event  __gs.eventQueue('incident.task.script.action','','param1','param2', '2023-07-24 00:00:00');__ we can fire the event using any sever side script 
-* search -> script-background -> run the  __gs.eventQueue('incident.task.script.action','','param1','param2', '2023-07-24 00:00:00');__ once fired u can check in event logs 
+* search -> script-background -> run the  __gs.eventQueue('incident.task.script.action','current','param1','param2', '2023-07-24 00:00:00');__ once fired u can check in event logs 
 * script action fired form the event once event fired this script action will trigger and once script action is trigger it will create incident-task record 
 
 56
@@ -2636,6 +2659,132 @@ field salary role [faculty_admin]
 * then to production 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
+1. What is the parent table of Incident and Change applications ?  
+* task 
+2. What are the Applications you see in ITSM? 
+* incident change problem request/task knowledge
+3. What is Dictionary?  
+* Dictionary is the table where the field values save  Dictionary table __sys_dictionary__
+3. What is Dictionary override ?
+*  u can control the attributes of child table  when u create table using inherit to extend table the parent table feature come to child table and even dictionary realated things also will be inherit to child table 
+4. What is Reference Qualifier ?
+* is use to restric the data of refercne  field, when ever we are seraching the user for in incident form i want to get only active user
+  * simple [condition]
+  * Advanced [java script]
+  * Dynamic [script include or script in the form of dynamic filter option]  
+5. What is ACL and Uses?  How ACL is run? What role is required for ACL creation? 
+* (security_admin).
+8. Which role is needed to create reports? who can manager reports 
+* any one can report, report_admin use to administrate the reports
+9. What is the difference between homepage and Dashboard?
+* 
+10. What is Coalesce  and its types.
+* if u have multiple coalesce then both will match then only it update if one is not mathing then it will create new record 
+11. What are the types of Business rules?
+* 
+12. What is difference between After and before BR?
+13. What is Aysnc BR?
+14. What is g_scratchpad? 
+* it comes in displlay BR using g_sratchpad u can define variable in server level that variable called in client script 
+15. What API is used to call Server script from Client Side Script?
+*  
+16. What is Script Include? -- What are the different methods in GlideAjax?
+* Script include is server side data we create class and more function and class and function can be called from every where u can call it client side and server side also  
+               class: shoping function: buyfruits   ---- shoping.buyfruits
+               var ga =  new GlideAjax('shoping');       
+18. What are the types of Client Script . (- how is hide the field using client script - setDisplay setVisible)
+19. What is the table name of Work notes in incident table ?  
+* (Journal Entry sys_journal_field)
+20. Difference between  UI Policy and Data policy ?
+21. Based on which table Priority Field works. What is Data lookup? 
+* Data Lookup Definitions 
+23. What is Record producer?
+* record producer is on type of catalog item and is use to create record on any table 
+24. How is update function works in server side script ? 
+* current.update , gr.update 
+25. What is Service catalog?
+26. What are the events in Workflow ?
+* we create event we create a notification and we attacth that event to notification then we trigger that event or notification using workflow  
+27. How will you send emails using Scripts?
+* u create event and u trigger using __gs.everyqueue('event_name', current, parm1, parm2);__ 
+28. What are tags in Incident table?
+29. What are the types of SLA’s .
+30. What is transform maps?
+* transform map is used to transfor the data from source to servicenow target table 
+* here the field maping will come 2 auto mapping and manual mapping assistence using auto mapping system will do read and map autometicaly 2 mapping assit u will do manuaaly there tranform script will come and coleasec 
+31. How to update any record without changing the Updated by or updated on fields in any table ?32. 
+33. What is the use of impersonation in servicenow?
+* it allows u to shift to another acconut to see access and servicenow is working fine or not  
+34. How to find out deleted records .
+* there is delete record table there u can find 
+35. Best Practices of BR?
+36. what is update set?
+* update set used to capture the customization & confguration and used to move the changes from instance to instance. XML format
+* update set is where we can capture our development work to move to test
+37. wher is update set will store?
+* __sys_update_set__ update set information will store 
+* __sys_update_xml__ update or custamization  information will store 
+38. ways to move updateset from one env to another? which one is good to follow?
+* via  XML in dev instance we capture every thing we keep it on save compelete once it completed export into XML then we goto another instance from there retrived updateset import load preview  commit before commit we check number of updates and preview the issues then commit 
+* we create update sources in the test instance or prod instance then we connect dev instance to test instance via update source and we retirved the complete update set 
+39. Update source?
+* it use to connect the two system and it will help to retrive the completed updatesets 
+40. what is Backout?
+* backout is once the update set is commited if u dont want those update to be applyed u have option called backout 
+* u dont want the changes 
+41.  method of handling dev work?
+* agile
+42. explain ateast two preview issues?
+* 
+43. default update sets
+*   if u dont select any update set chnages by default go to default updateset which system generated update set 
+* if u  make default update set inprogress to complete system will create another default1 updateset if u make default1 also complete then system will create another default2 updateset 
+44. merged updates?
+* u have one story and u have work on mulitple update set like 5 instead of moving 5 times system have merge update set u cloub alof them into one update set then 
+45. what are states of an updae sets? how to manage them ?
+* inprogress / complete / ignore
+
+46. i have to capture updates into story-1 update set by misteknly i capture in default 0ne then how to move default to story-1?
+* goto default then 
+
+* we are getting request for adding user to group  
+* u write run script here intilize grmember table read those values from group and user intialize and insert the values in grmember 
+
+1. what is diffreance between client script vs BR ?
+* both are two difreant entitys like client script means it work on client side 
+* form level like ui want to do field validation like start date and end date 
+* when BR is for server side like data base activity 
+* BR where u do on directly on data server side  
+* i want closed incident which are not touched last 6 month like we doing some clean up activity 
+* 
+* __while(grr._next)__ __grr.next__ both are same if u have field called __next__ in gliderecord then u have to use ___next__ to get function activeated 
+* __while(grr.next)__ next is opertion which takes to next record 
+* __while(grr.hasNext)__ will eritern true or false based on condition 
+* how to call script include from client side 
+* Ajax call
+* how to call script include from server side 
+* classname().functionname()
+
+* i want to restric edition of one field for  itl user we have to use __hasRole__
+* get reference only function where u can use to call the data from the server side make use of it client side using dot walking 
+* __g_form.getActionName__ it gives u to las clicked ui action 
+* INCIDENT if anyone have issue they rise the ticket that is called incident 
+* PROBLEM if issue got for many people tha will be a problem 
+* how u call catalog varible in workflow 
+* current.vareiblenama
+* what is acl?
+* acl is access controal list so it will restrict certain user to for the application not to be visible and some application visible certain user for the purpose
+* by role , condition, script   
+* what is transfom script? in tranform scritp what is diffreant between on before and on complete?
+* what is import sets? is a table ?
+* what is coalesce?
+* what is data policy?
+* i have incident table i have child incident now if i update description of parent table i want to update same discription in childe table aslo?
+* what is set display and set visible?
+* i have form and ur creating onload client script but onload client script run on exesiting record it should not run for new record?
+ 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
 ##### Gautham 
 * change the logo image -> search system properties/basic configuration UI16 ->  here u can basic level configuration like time brnading like thems and colour  
 * Applicaton banner application is nothing but collection of module 
@@ -2643,47 +2792,825 @@ field salary role [faculty_admin]
 * __Forms__ is collecting the user information 
 * form can hold the fields to collecting information form user 
 * we can design forms in multiple ways __Form Design__ __Form Layout__ 
-*  
+* __dl_u_priority.list__ incident data lookup table 
+* to create custom data lookups u have to create custom fields  on selected form like goto incident form -> right click -> configure -> form layout 
+* when ever ur creating custom lookup table that table alway extend with __data lookup matcher rule__ table 
+* Tables is collection of  records rows = record cloumn = fields 
+
+* Server side running APIs
+  * GlideRecord
+  * GlideAggrigation
+  * GlideSession
+  * GlideSystem
+  * GlideMutex
+* ClientSide APIs
+  * GlideForm
+  * GlideUser
+  * GlideDailogWindow
+  * GlideAjax
+
+```
+var inc = new GlideRecord('incident');
+inc.addInactiveQuery();
+inc.query();
+while(inc.next()){
+  gs.print(inc.number + '' inc.active);
+
+}
+``` 
+
+```
+var inc = newGlideRecord('incident');
+inc.addQuery('category','network');
+inc.addQuery('priority', 1);
+inc.addQuery('active', true);
+inc.addEncodedQuery('active=true^category=network^priority=1')
+inc.query();
+while(inc.next()){
+  gs.print(inc.number + '' + inc.active);
+  gs.print(inc.number + '' + inc.priority.getDisplayValue());
+}
+```
+LAtest created 5 records
+
+```
+var inc = new GlideRecord('incident');
+inc.addQuery('priority', 1);
+inc.orderByDesc('sys_created_on');
+inc.setLimit(5);
+inc.query();
+while(inc.next()){
+  gs.print(inc.number);
+}
+```
+
+#### GlideForm
+* The Glide Form is claint side API, mainly used to change the default behavior of the current record 
+* setDisplay wont maintain the space 
+* SetVisible will maintain the space 
+* both are used to hide the field    
+##### UI Policy
+* UI policy are used to change the behaviour dynamically in servicenow 
+* like u want to make field manadatory or read only or hide /writeble, visible/ invisible 
+* ui policy modify fields on a form based on specific conditions. 
+* ui policy will execute when form get loded 
+* ui policy we will use basic level condition applies if u want to do complex validation then use client script 
+
+* if u want to make any field manadatory in service now there is 6 ways 
+  * 1. form design
+  * 2. config Dicitionary
+  * 3. Dicitinaory override
+  * 4. UI policy
+  * 5. Data policy
+  * 6. Client script
+* when state is change On Hold then only On hold reson will become visible and mandatory
+
+#### Data Policy
+* Data Policy are similor to ui policy but its running for server side used to enforce data consistency by setting manadatory and read-only states for fields 
+
+* UI policy will run form client(browser)
+* Data Policy will run from Server side (mandatory/optional read only/ write only) we cant hide the field 
+* if ui ploicy already is created then u want to apply same condition on server side also then u can convert the ui policy to data policy 
+* data policy also work both client side and server side also for that we need to check the box __use as on client__
+
+#### Import Sets
+* import sets allow servicenow administrators to import the data from external data sources and map into servicenow target table 
+* xl, xml, csv, json. format servicenow support the data format 
+* importsets / load data -> create transform map(staging are soruce and target tables map and field and column) -> auto map matching field (coalesce to avoide duplicate records) 
+
+#### Update Sets
+* group of configuration changes or customaizatons that can be used to track individual developer changes and move them from one nstance to another. 
+* u want to maigrate changes dev qa then prod u have to Capture for that u have to create local updatesets record updatesets means XML file what ever we have done that will store in xml format 
+
+*  first create local update sets -> make canges -> then state is complete once u complete and save then will generate the  link Export to XML once u click file will downloaded rename it then -> login QA instance -> system update sets/ Retrived Update Sets choose file -> upload > open the record and preview then commit updateset(to migrate the updateset to target instance) if after few hours what ever updates are not working properly then we can do Back Out
+
+##### Service Catalog
+* Service Catalog is an application within hte platform
+* it allows u to create service catalog that provide ur customer with self service opportunities.
+* it is used to support the sales and delivery of it services 
+* catalog definitaions / maintain catalogs 
+
+##### Order Guide
+* it kind of catalog item which is used to generate bulk items in single request
+
+##### Record Producer
+* Record Producer : creating task based record instead of creating incident 
+* Order Guide : to reuesting bulk of item in single request
+* Content item : Service catalog item provide the information instead of goods or services 
+
+* CLient Script is running from client side(browser)
+* if u want to change the behaviour of current record read only mandatory hide visile like that 
+* On load script 
+* Work Flow is servicenow offers a drag and drop interface that enable the automation of multi-step process accross the platform 
+
+* A Record Producer is a type of catalog item that allows end users to create task based records such as incident record from the service catalog it is an alternate way to create an incident 
+
+* Business Rule are the server side script which mean that it will execute on server or data base
+* Business rules CURD OPERATION are the server side script logic tha runs when record is displayed inserted, updated or deleted 
+* the table of BR is sys_script where all BR records are stored
+* Display BR __g_scrathpad.scratchpadname=current.fieldname__
+* Order of BR or BR process Flow 
+  * query BR
+  * Display BR
+  * Before BR
+  * After/Async BR  
 
 
+##### 50 Interview Q&A
 
+1. what is the difference between UI Policy and DATA Policy?
+* UI policy will executing on the Client Side 
+* with in the browser
+* UI ploicy field make mandatoryor optional read only and writeble visible and invisible
 
+* Data Policy will executing on server side 
+* server side where custemer create update record rest soap any third party intigration list view and background  
+* mandatory or optional read only or writeble we cant hide the field throught the data policy 
 
+2. can we convert ui policy to data policy? why do we need to convert?
+* we can convert ui policy to data policy like one condition u have been applied when state get chnages to resloved then resolution code and resolution notes are manadtory so when u want to appliy the same condition on server side so no need to create data policy manually just u use existing ui policy convert it so when u convert ui policy to data policy ui policy will inactive data policy will active 
+3. What is client script? types of client script?
+* client script is used to change the behaviour of form instead of using ui policy 
+  * ther are 4 type of client script
+  * onload 
+  * on change
+  * on subbmit
+  * on celledit
+4. can we use onload client script i on change? 
+* yes for that u need to use __isLoading__ parameter we can call onload client script in onchange client script 
+* what are the parameter in on-change client script?
+* newValue, oldValue, isLoding, isTemplate, Control
+5. what is Dictionary Override?
+* is the propertie there we can find diffreant component diffreant template when ever we want to change the default behaviour of parent to child  that movement can create Dictionary override element
+* we can override in default value, mandatory, readonly and hiding other activity also 
+* when u make field manadatory in parant table like task table same behaviour carriforword child table also if u dont want to carriforword behaviour of paraent to child we can implement Dictionary override 
+6. What is Business Rule? and types of BR?
+* BR server side script logic whch is use perform CURD operations 
+* Ther are 4 types of BR
+* Before
+* After
+* ASYNC
+* Display
+7. What is the importance Dispaly BR?
+* Display BR use to get the data from server to client Which is not available on the form in display BR we can use one main object called __g_scratchpad__ __g_scratch.vaiableName = current.category__
+8. could u explaib all the type of BR?
+* before BR execute after subbmit the form before saving the data into the table 
+* After BR execute after submit the data save the table imidiatly After BR execute  
+* ASYNC is similor to after that will running in backend when u want to calcuat some metric difination, sla defination, sendin EMail notification ASYNC BR can Schedule time also 
+9. can we call BR in Client Side?
+* yes we can BR client side also Display BR 
+10. What about query BR?
+* query BR used to when customer queryd the table get the some record form the table so they are going to be executing the query   
+11. what are all operation we do with business rule?
+*  Update innserting deleteing  querying 
+12. how many ways trigger email notification in servicenow?
+  * workflow
+  * notification
+  * Event
+13. can we send email notification via BR? if yes how to sent email notifivcation via BR?
+* __gs.evenQueue('event name', current, 'param1','param2');__
+14. how do u sen email notifications via event? 
+* we need to create event registry there we can provide all the details about event 
+* we have to create email notification 
+* BR or ui action 
+15. how do u send email notifiation in CC and BCC?
+* __add.emailAddress('cc','basha@gmail.com')__
+* __add.emailAddress('bcc','basha@gmail.com')__
+16. what is Glide record? use of it?
+* Glide record is server side api which is used to perform CURD operations instead of executeing any SQL statement directly into the table 
+17. tell me some Glide APIs? which are running from server side?
+* GlideRecord
+* GlideSystem
+* GlideSession
+* GlideDate
+* GlideDateTime
+* GlideMutex
+* GlideAggreation
+18. What is the diffreance between Glide Record and Glide Aggregation?
+* GlideRecord use to perform CURD operations
+* GlideAggreation  some time we use perform CURD operation and Aggreatioan also 
+19. tellme client side APIs?
+* GlideForm
+* GlideUSer
+* GlideMenu
+* GlideDialogWindow
+* GlideAJAX
+20. tell me some methods in Glide REcords?
+* addQuery 
+* addEncodedQuery 
+* cooseWindow
+* setLimit
+* orderBy
+* isValue
+* setWorkflow
+* getValue
+* setValue
+* update
+* deleteRecord
+21. tell me some methods in GlideForm?
+* setMAndatory
+* setVisible
+* setDisplay
+* setVAlue
+* getVAlue
+* setREadonly
+* addInfo message
+* addErrorMessage
+22. i want print all the active tickets where category is network?
 
+```
+var inc = new GlideRecord('incident');
 
+inc.addActiveQuery();
+inc.addQuery('category=network');
+inc.setLimit(5);
+inc.query();
+while(inc.next()){
 
+gs.print(inc.number);
+}
+```
 
+23. how many ways we do get the data from server to client?
+* there are 3 ways.
+  * Display BR using by __g_scratchpat variable__
+  * __getRefference();__
+  * __GlideAjax__
+24. how many types of GlideAjax?
+* ASYNC will executing backgrount waiting for server responce (XMLWait)
+* SYNC  imidiatly give result back (XMLWait) 
+25. write the syntax of GlideAjax?
 
+```
+var ga = new GlideAjax('scriptIncludeNAme');
+ga.addParam('sysparam_name', 'className');
+ga.addParam('fieldNAme','Value');
+ga.getXML(hellowordlprase);
 
+function helloworldprase(response){
+  var answer = response.responseXML.documentElement.getAttribute("answer");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##### INTIGRATION
-* communication or making bond between 2 systems
+}
+```
+26. what is script include?
+* is code snippet and create once and clled multiple places where is the server side script is running 
+* the script include contain the number of functions and classes the function and class we directly call into server side 
+27. how many types of script includes?
+* onDemand Script include its class less 
+* AJAX processer it used to run in the client side 
+* defining the new class 
+28. can we call script include into client side?
+* we can call script include into client side while creating the new script include there is checkbox inthe form if u enable the checkbox __clientCAllebel__ autometically template will change 
+29. how do u cofigure notification body in any notification?
+* notification email script then  call into notification html body __${mail_script:email script name}__
+30. what is SLAs and types of SLAs?
+* SLA are service level agreement the agreement between Business unit and service provider
+there are 3 type 
+  * SLA service level  [Business usnit to service provider]
+  * OLA  Operation level [one operation team to other operation team]
+  * UC under pending contract [third party vendor and service provider]
+31. what is retroactive start and Pause?
 * 
+32. what is ACL and types of ACL?
+* ACL is access control list which is used to restic user and can define who can create read update delete the record in service now 
+* 4 type of ACL
+  * create
+  * read
+  * write
+  * delete
+33. how many levels we can apply ACLS Rules?
+* table
+* field
+34. what about * and none?
+*  . * can defining all the table 
+* none can definig all the record 
+35. which is best practice to add the roles?
+* group is best practice
+36. what is the difreance between UI policy and Client Script?
+* UI Policy and Client Script will run client side only 
+* UI Policy we can us mandatory read visible invisible 
+* and same activity we can do with client script also but client script will execute every time when form get loded and submited change field value and list view but UI Policy will execute only when form get loded 
+37. i made short description field mandatory via client script  & same field unMandatory via UI Policy?
+* when u impliment both ui policy and client script ui policy will be applicable 
+38. i have written 2 UI ploicys and 2 client script? which are executing first
+* after executing client script UI policy execute as per servicenow  
+39. what is service catlog? use of it?
+* catalog is application in servicenow platform which is used to full fill self service opertunity like requesting the item any requesting
+40. what is record producer?
+* record producer also type of catalog item which is used create task based records instead of folwing regulor process and insted of creating incdent ticket  it is alternative way create incident ticket  
+41. what is order Guide?
+* order Guide also type of catalog item which is used to generate bulk item in single request based on the rule
+42. what is casecade variable in order guide ?
+* cascade variable i propertie when u enable check box cascade variable autometically carri the value form order guide form to catalog item 
+43. what is user criteria?
+* i have created one catalog item that should be visible to only it department and company is 3infotech to achive this condition we need to create user criteria that crieteria we can add to available for 
+44. what is VariableSet? 
+* is group of variables cre
+45. What is updatset?
+* updateset is group configureation changes and customizations which is used to migrate changes from one instance to another instance 
+* every servicenow developer while making the changes first they have to creat local updateset record that is marked as complete updateset then we impliment all the changes given storys when u think all the changes are completed then u can navigate to system updateset open local updateset that update set marked as complete autometically generate the XML file that xml file we can download keep on desktop and u can navigate targeted instance open the system updateset goto retrive updateset exported file import into target one and privew and commit 
+46. do u face any problem while migrating the chnages   
+* yes we face the problem while migrating the changes i face some coleasin aslo some changes already implimented when im trying to impliment ui policy that field is not in target table 
+46. what is import set?
+* import set is application which is used to import th e bulk data into service table from external data source using by the transformMap (xml,xl,json,csv)
+* when u want to import the bulk data from external sources into service now table first u need to load the data into staging table that is called tempory table then we have to create transformap there we can map target and source table and create maping assiss then we have to create colasec(is the field properti when u enable true it is not allowing any duplicate records and some uses to updataing record with new value) finally click on transfom the entire data will be store in tareget table 
+47. can we create multi collesec?
+* 
+48. what is metrics? and use of it?
+* metrics can be calculate and mesure the affective ness of service which is providing by service provider 
+49. can we delete any prdefined table?
+* we cant delete any predifend table system will not allow 
+50. how come to know which version of servicenow u r using in ur project?
+* stats.do using this commnad we can know all the details
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+###### Practice
+```
+(function calculatedFieldValue(current) {
+
+    if (current.u_caller.getDisplayValue() != ''&& current.u_category.getDisplayValue() != ''&& current.u_sub_catogeroy.getDisplayValue()&&current.u_short_discription != ''){
+        var str = current.u_caller.getDisplayValue()+' has created a case of category is '+current.u_category.getDisplayValue()+ ' and sub category is'+current.u_sub_catogeroy.getDisplayValue()+' with summery is '+current.u_short_discription;
+
+        return str; // return the calculated value
+    }
+
+})(current);
+```
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+##### Project
+* we have one educational organizataion in there we need to collect the student details after collecting the details we have difreant departments like admission dep, feescollect, like we have difreant dipartment 
+* base level admission department: 
+* 1. create table name is  Basha Education
+```
+Field Name              Type
+Admin no             Auto Number  [number maintenance-> table basha educational]  field advanced view , default value -> use dynamic default serach get next padded number
+Admin Date           Date 
+Student Name         String
+Grade                Choice
+Father Name          String
+Mother Name          String
+Father Cell          String
+Mother Cell          String
+```
+* Create Table Name is Admission (it is extende from Basha Educationa)
+
+```
+Number            Reference Admin no
+school            Choice
+purpose of join   Choice
+admin status      Choice
+school area       Choice
+student H no      String
+area              String
+city              String
+mandal            String
+district          String
+pincode           String
+fee               String
+comments          String
+```     
+
+* when ever u start working on service now u have set __update Set__  -> __local Update sets__ -> new -> name basha educational -> submit and make current  
+* table/ system definition -> new Basha Education 
+
+* __Process Flow__  -> new -> table -> name [new] -> lable [new] -> order 100 -> condition [admin status  is  New] 
+* In progress -> table -> lable [in progress] -> order 200 -> condition [admin status  is join in progress]
+* joined-> table -> lable [joined] -> order 300 -> condition [admin status  is joined]
+* Rejected -> table -> lable [rejected] -> order 400 -> condition [admin status  is rejected]
+* rejoined -> table -> lable [re joined] -> order 500 -> condition [admin status  is rejoined] 
+* closed -> table -> lable [closed] -> order 600 -> condition [admin status  is closed] 
+* canclled-> table -> lable [canclled] -> order 700 -> condition [admin status  is cancelld] 
+
+![s105](./images/s105.PNG)
+
+* Colesce it is uniq field doesnt allow any of the duplications 
 
 
+* after saving a record in the incident table the compiler will verify if the same short description exists in previous record three times if so it will save the incident record and genereate a new problem record with the identical short description.
+
+```
+(function executeRule(current, previous /*null when async*/){
+
+var gr = new GlideRecord('incident');
+gr.addQuery('short_description', current.short_description);
+gr.query();
+
+var count = 0;
+while(gr.next())
+{
+  count++;
+}
+if (count>=3)
+{
+  var problemgr = new GlideRecord('problem');
+  problemgr.initialize();
+
+  problemgr.short_description = current.short_description;
+  problemgr.description = "This recordwas created with the help of incident record."
+  problemgr.insert();
+}
+
+})(current, previous);
+```
+
+2. write a script that queries the incident table, retrieves all active records and group them by priority. the output should be printed as an array of objects where the key represents teh priority and the values represent the incident number?
+
+```
+var gr = new GlideRecord('incident')
+
+gr.addActiveQuery();
+gr.query();
 
 
+var groupIncidents = {};
+
+while(gr.next())
+{
+  var priority  = gr.getValue('priority');
+  var incidentNumber = gr.getValue('number');
+  var shortdescription = gr.getValue('short_description');
+
+  if(!grouptincidents[priority])
+  {
+    groupIncidents[priority]= [];
+  }
+  grouptIncidents[priority].push(incidnetNumber+" : " +shortdescription);
+}
+
+var outputArray = [];
+
+for(var key in grouptIncidents)
+{
+  if(grouptIncidents.hasOwnProperty(key))
+  {
+    var obj = {};
+    obj[key] = groupIncidents[key];
+    outputArray.push(obj);
+  }
+}
+
+gs.info(json.stringfy(outputArray, null, 2));
+```
+
+3. change the category of all incidents to hardware without updating system fields ensuring accurate classification and avoiding potential system errors.?
+
+```
+var gr = new GlideRecord('incident');
+gr.addQuery('category','software');
+gr.query();
+
+while(gr,next())
+{
+  gr.category = 'hardware';
+  gr.autoSysField(false);
+  gr.update();
+}
+```
+
+4. in service now admin has no access developer by writing scripting how we can modify locaton field from mumbai to hyderbad need to modify the location how you write the background script?
+```
+var locGR = new GlideRecord('cmn_location');
+locGR.addQuery('city','Mumbai');
+locGR.query();
+while(locGR.next())
+{
+  locGr.city= 'Hyderabad';
+  locGR.update();
+}
+```
+5. where we can find deleted records in servicenow?
+* __sys_metadata_delete.LIST__ deleted application files -> click the table and restore file 
+6. write a script to display incident as per the caller manager is empty?
+
+```
+var userid = gs.getUserID();
+var gr = new GlideRecord('incident');
+gr.addNullQuery('caller_id.manager');
+gr.addQuery('caller_id',userid);
+gr.query();
+
+while(gr.next())
+{
+  gs.info(gr.getValue('number'));
+}
+```
+
+6. Display incident records created in this week?
+```
+var gr = new GlideRecord('incident');
+
+var currentDate = new GlideDateTime();
+var sevenDayAgo = new GlideDateTime();
+
+sevenDayAgo.addDyaysUTC(-7);
+
+gr.addQuery('sys_created_on','>=', sevenDayAgo);
+gr.addQuery('sys_created_on','<=',currentDate);
+gr.query();
+
+while(gr.next);
+{
+
+  gs.info('Incident Number: '+gr.number+ 'Created on: ' +gr.sys_created_on);
+}
+```
+* we need to monitor all incidnet records while creating one record check short description field value  already esist in any other records if yes show that record number and short description while saving  the record? short description is repetead before that one incident created with same short description show that as alert like it already created? 
+
+```
+(function executeRule(current, previous /*null when async*/){
+if(current.short_description.changes())
+{
+  var gr = new GlideRecord('incident');
+  gr.addQuery('short_description',current.short_description);
+  gr.addquery('sys_id','!=',current.sys_id);
+  gr.query();
+  while(gr.next())
+  {
+    gs.addErrorMessage('Incident Number: '+gr.number+'\n Short description:' +gr.short_description);
+  }
+
+}
+})(current,previous); 
+
+```
+
+* if there is 4 variables on service catalog  i want to auto populate  3 variables on the basis on 1 variable.
+
+* where adding comments to an incident triggers a change in its state to "In Progress"
+
+```
+(function executeRule(current, previous /*null when async*/) {
+
+  if (current.comments && currents.comments.changes()>0)
+  {
+    current.state = 2;
+
+  }
+})(current,previous);
+```
+* calculate the time taken  from new to in progress state of incident record and display on form field ?
+
+```
+(function executeRule(current, previous /*null when async*/){
+
+if (current.state==2 && previous.state==1)
+{
+  var timediff  = gs.dateDiff(current.sys_created_on,current.sys_update_on, true);
+  var days = Math.floor(timediff/(24*60*60*1000));
+  var remainder = timediff%(24*60*60*1000);
+  var hours = Math.floor(remainder/(60*60*1000));
+  remainder = remainder%(60*60*1000);
+  var minutes = Math.floor(remainder/(60*1000));
+  var seconds = Math.floor((remainder%(60*1000))/1000);
+
+var formattedduration = day+'days,' +hours+ ':' +(minutes<10?> '0':'')+minutes+':'+(seconds<10?> '0' : '')+seconds;
+
+current.u_time_taken = formattedduration;
+current.update();
+}
+
+}) 
+```
+
+* show info message if caller/employee name and assigned to are same?  
+```
+function onChange(control, oldValue, newValue, isLoading, isTemplate){
+  if (isLoading || newValue === ''){
+    return;
+  }
+  var caller;
+  var assignedto;
+  caller = g_form.getValue('caller_id');
+  assignedto = g_form.getValue('assigned_to');
+
+  if (caller == assignedto){
+    g_form.showErrorBox('assigned_to',"Caller and assignedto field are equal", true);
+  }
+  else{
+    g_form.addInfoMessage("");
+  }
+}
+``` 
+
+* if caller and logged in user both are same then state field should be read only and show one error box below the caller field 
+
+```
+function onChange(control, oldValue, newValue, isLoading, isTemplate){
+  if (isLoading || newValue === ''){
+    return;
+      }
+var caller = g_form.getValue('caller_id');
+var user = g_user.userID;
+if(caller == user)
+{
+  g_form.setReadOnly('state',true);
+  g_form.showErrorBox('caller_id',"Caller & Logged in user should not same", true); 
+}
+else{
+  g_form.setReadOnly('state',false);
+}
+}
+```
+
+* if incident short description contain "software" word then set Assignemtn Group should be "software" Group?
+
+```
+function onChange(control, oldValue, newValue, isLoading, isTemplate){
+  if (isLoading || newValue === ''){
+    return;
+  }
+  var x =g_form.getValue('short_description');
+  if (x.indexOf('software')>=0)
+  {
+    g_form.setValue('assignment_group','sys_id9904093dj0u3');
+  }
+  else if(x.indexOf('hardware')>=0);
+  {
+    g_form.setValue('assignment_group','hardwaregroupessys_id82u803u0u2');
+  }
+  else
+  {
+    g_form.setValue('assignment_group',''); 
+  }
+}
+```
+
+* how to change string field value from lower case to upper case without saving the form?
+
+```
+function onChange(control, oldValue, newValue, isLoading, isTemplate){
+  if (isLoading || newValue === ''){
+    return;
+  
+  }
+  var x= g_form.getControl('short_description');
+if (x)
+{
+  vat text = x.value;
+  x.value = text.toUpperCase();
+}
+}
+```
+
+* we need to delete inactive records in incident tabe without using manual deleteion method?
+
+```
+ var x = new GlideRecord('incident');
+
+ x.addQuery('active',false);
+ x.query();
+
+ x.deleteMultiple();
+```
+
+* update all short description field of incident table priority-1 records, but short description fields   already contain some data.so add some extra data for that  exesting short description field? for that we can write Background script or Business rule 
+
+```
+var x= new GlideRecord('incident');
+x.addQuery('priority',2);
+x.addquery();
+while(x.next())
+{
+ var oldshrt = x.short_description;
+ var newshrt = "*IMPORTANT* "+oldshrt;
+ x.setValue('short_description',newshrt);
+ x.update();
+}
+```
+* i have one excel sheet that contain 100 record out that i want only transorm 51-100 records then how that i can i achive with import set and transform map
+* for that create Load Data -> create Transformmap and map matcchingfield assist -> 
+```
+(function transformRow(source, target, map, log, isUpdate){
+var num = source.u_number;
+var phone= source.u_phone.toString();
+
+if(num<=50)
+{
+  ignore = true;
+}
+else if (phone.length == 0)
+{
+  ignore = true;
+}
+
+})(source, target, map, log, action==="update");
+```
+* is it possible to add the attachment option to a specific tab in a form?
+
+* one ACL is created for writing and another ACL created for denied so which will executed?
+* it will alow to write becouse any one acl meet the condition it will not check other ACLs
+
+* if we select yes then field colour change to green or No then field colour change to Red
+
+```
+function onChange(control, oldValue, newValue, isLoding, isTemplate){
+  if (isLoading || newValue === ''){
+    return;
+  }
+
+  var field = g_form.getControl('u_new_update');
+  if (field){
+    var fieldvalue = field.value;
+    if(fieldvalue =='1');
+    {
+      field.style.backgrounColor = 'green'
+      field.style.color = 'white';
+    }
+    else if(fieldvalue=='2'){
+      field.style.background='red';
+      field.style.color = 'white';
+    }
+    else
+    {
+      field.style.bacgroundColor = ' ';
+      field.style.color = ' ';
+    }
+  }
+}
+```
+* Restrcict record creation if more that 2 records create Today?
+
+```
+(function executeRule(current, previous /*null when async*/)
+{
+  var snrecord = newGlideRecord('u_sn34');
+  snrecord.query();
+  var x = parseInt(snrecord.getRowCount());
+
+  if(x>2){
+    current.setAbortAction(true);
+    gs.addErrorMessage("you should not create this record because limit exceeded");
+      }
+      else{
+        gs.addInfoMessage("Thank you for creatoing this record");
+      }
+})(current, previous);
+```
+* A technical support speciallist at a large technology company is tasked with resloving a high volume of software inicidents that were misclassified as hardware issue they are instructed to change the category  of all inicdents to hardware without updating system fields, ensuring accurate classification and avoiding potential system errors.
+
+```
+var gr = new GlideRecord('incident');
+gr.addQuery('category','software');
+gr.query();
+while(gr.next())
+{
+  gr.category = 'hardware';
+  gr.autoSysField(false);
+  gr.update();  
+}
+```
+
+* in a date fiels when a data s selected the compiler will verify if is an old date or todays date if the user selected a date they will be notified to choose a future date. 
+* old date are not allowed only next date will allow
+
+```
+function onChange(control, oldValue, newValue, isLoading, isTemplate){
+  if (isLoading || newValue === ''){
+    return;
+  }
+  var today = new Date();
+  var day = today.getDate();
+  var month = today.getMonth()+1;
+  var today.getFullYear();
+
+  day = day<10?'0' +day:day;
+  month = month<10?'0'+month:month;
+
+  var formattedDate =  day+'-'+month+'-'+year;
+  var selectDate = g_form.getValue('u_join_date');
+  
+  if(formattedDate<selectedDate)
+  {
+    g_form.clearMessage();
+  }
+  else{
+    g_form.addErrorMessage("Please select future dates")
+    g_form.setValue('u_join_date','');
+  }
+}
+```
+
+###  where is impersonate logs will store 
+* generally it will store in __system log__ any thing happen it will store apart from this there is table called  __isc_imersonation_event__
+
+* Incative vs Delete
+* delete will delete the details like for whom this is created like this u dont see any details but if u incative u can see the details of the user 
+1. Take a backup of ur all development work and keep it under one update set "2024 Backup" and export to your local computer.
+* update sets -> name 2024 Backup -> save 
+
+```
+var ups = new glideRecord('sys_update_xml');
+ups.addEncodedQuery('sys_updated_bya;fjjiohfdsol=global');
+ups.setLimit(5);
+ups.query();
+gs.print(ups.getRowCount());
+while(ups.next())
+{
+  ups.update_Set = 'updateset_sysiderfecoihsfo8e04938ehc':
+  ups.update();
+}
+```
+* then state complete then export to xml then retiverd update set from xml 
